@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MovieProject</string>
     <string name="movie_poster_content_desc">Placeholder for movie poster.</string>
+    <string name="movie_title">Movie Title</string>
 </resources>
