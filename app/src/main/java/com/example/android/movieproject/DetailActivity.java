@@ -10,9 +10,12 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.android.movieproject.provider.MovieContract;
+import com.example.android.movieproject.utils.MovieUtils;
+import com.squareup.picasso.Picasso;
 
 import static com.example.android.movieproject.provider.MovieContract.BASE_CONTENT_URI;
 import static com.example.android.movieproject.provider.MovieContract.PATH_MOVIES;
@@ -22,6 +25,7 @@ public class DetailActivity extends AppCompatActivity
     private static final int SINGLE_LOADER_ID = 200;
     public static final String EXTRA_MOVIE_ID = "com.example.android.mygarden.extra.MOVIE_ID";
     long mMovieId;
+    public static final String LOG_TAG = DetailActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,28 +60,22 @@ public class DetailActivity extends AppCompatActivity
         int plotIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_PLOT);
 
         String movieTitle = cursor.getString(movieTitleIndex);
-        int movieImgRes = cursor.getInt(moviePosterIndex);
+        String movieImgRes = cursor.getString(moviePosterIndex);
         long releaseDate = cursor.getLong(releaseDateIndex);
-        double voteAverage = cursor.getDouble(voteAverageIndex);
-        String voteDescription = cursor.getString(moviePosterIndex);
+        float voteAverage = cursor.getFloat(voteAverageIndex);
+        String voteDescription = cursor.getString(voteDescriptionIndex);
         String plot = cursor.getString(plotIndex);
 
-        ((ImageView) findViewById(R.id.movie_list_item_image)).setImageResource(movieImgRes);
+        ImageView imgPoster = findViewById(R.id.poster_iv);
+        Picasso.with(this).load(movieImgRes).into(imgPoster);
+
         ((TextView) findViewById(R.id.movie_title_tv)).setText(String.valueOf(mMovieId));
-        ((TextView) findViewById(R.id.plant_age_number)).setText(
-                String.valueOf(MovieUtils.getDisplayAgeInt(timeNow - createdAt))
-        );
-        ((TextView) findViewById(R.id.plant_age_unit)).setText(
-                MovieUtils.getDisplayAgeUnit(this, timeNow - createdAt)
-        );
-        ((TextView) findViewById(R.id.last_watered_number)).setText(
-                String.valueOf(MovieUtils.getDisplayAgeInt(timeNow - wateredAt))
-        );
-        ((TextView) findViewById(R.id.last_watered_unit)).setText(
-                MovieUtils.getDisplayAgeUnit(this, timeNow - wateredAt)
-        );
-        int waterPercent = 100 - ((int) (100 * (timeNow - wateredAt) / MovieUtils.MAX_AGE_WITHOUT_WATER));
-        ((WaterLevelView) findViewById(R.id.water_level)).setValue(waterPercent);
+        ((TextView) findViewById(R.id.release_date_tv)).setText(MovieUtils.getReleaseDateAsString(this,releaseDate));
+
+        ((RatingBar) findViewById(R.id.vote_avg)).setRating(Float.valueOf(voteAverage));
+
+        ((TextView) findViewById(R.id.vote_desc_tv)).setText(voteDescription);
+        ((TextView) findViewById(R.id.plot_tv)).setText(plot);
     }
 
     @Override

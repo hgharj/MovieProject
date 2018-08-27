@@ -2,4 +2,23 @@
     <string name="app_name">MovieProject</string>
     <string name="movie_poster_content_desc">Placeholder for movie poster.</string>
     <string name="movie_title">Movie Title</string>
+    <string name="detail_title">Details Title</string>
+    <string name="settings_title">Settings Title</string>
+    <string name="content_authority">com.example.android.movieproject</string>
+
+    <string name="no_movies">No movies found.</string>
+    <string name="no_internet">No internet connection.</string>
+
+    <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
+    <string name="settings_menu_item">Settings</string>
+
+    <string name="settings_order_by_most_popular_label">Most Popular</string>
+    <string name="settings_order_by_most_popular_value" translatable="false">most popular</string>
+    <string name="settings_order_by_highest_rated_label">Highest Rated</string>
+    <string name="settings_order_by_highest_rated_value" translatable="false">highest rated</string>
+
+    <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_most_popular_value</string>
 </resources>
