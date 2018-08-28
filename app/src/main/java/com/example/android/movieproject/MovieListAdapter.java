@@ -7,8 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.example.android.movieproject.provider.MovieContract;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by jcgray on 8/5/18.
@@ -22,6 +27,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     public MovieListAdapter(Context context,Cursor cursor){
         this.mContext=context;
         this.mCursor=cursor;
+    }
+
+    private final List<Movies> movies;
+    private final OnItemClickListener listener;
+
+    public MovieListAdapter(List<Movies> movies,OnItemClickListener listener){
+        this.movies=movies;
+        this.listener=listener;
+    }
+    public interface OnItemClickListener {
+        public void onItemClick(Movies movie);
     }
 
     @Override
@@ -42,6 +58,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         String voteDesc = mCursor.getString(voteDescIndex);
         String plot = mCursor.getString(plotIndex);
 
+        holder.bind(movies.get(position),listener);
         /*int imgRes = PlantUtils.getPlantImageRes(mContext, timeNow - createdAt, timeNow - wateredAt, plantType);
 
         holder.plantImageView.setImageResource(imgRes);
@@ -76,9 +93,28 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     class MovieViewHolder extends RecyclerView.ViewHolder{
         private ImageView movieImg;
+        private TextView title;
+        private TextView plot;
+        private TextView releaseDate;
+        private RatingBar voteAvg;
+
         public MovieViewHolder(View v){
             super(v);
             movieImg = (ImageView) v.findViewById(R.id.plot_tv);
+        }
+        
+        public void bind(final Movies movie, final OnItemClickListener listener){
+            title.setText(movie.getMovieTitle());
+            plot.setText(movie.getPlot());
+            releaseDate.setText(movie.getReleaseDate());
+            voteAvg.setRating(movie.getVoteAverage());
+            Picasso.with(itemView.getContext()).load(movie.getPosterImage()).into(movieImg);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(movie);
+                }
+            });
         }
     }
 }

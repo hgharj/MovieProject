@@ -1,7 +1,10 @@
 package com.example.android.movieproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Movie;
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
@@ -12,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -33,25 +37,35 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.movie_recycler_view);
-        recyclerView.setLayoutManager(
-                new GridLayoutManager(this,4)
+        Context context = this;
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        mMovieRecyclerView = (RecyclerView)findViewById(R.id.movie_recycler_view);
+        mMovieRecyclerView.setLayoutManager(
+                new GridLayoutManager(this,2)
         );
 
         // Create a new adapter that takes an empty list of earthquakes as input
-        mAdapter = new MovieListAdapter(this, new ArrayList<Movies>());
+        mAdapter = new MovieListAdapter(this, null);
+        mMovieRecyclerView.setAdapter(mAdapter);
 
+        getSupportLoaderManager().initLoader(MOVIE_LOADER_ID,null,this);
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(mAdapter);
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
-        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mMovieRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public void onClick(View view) {
                 // Find the current earthquake that was clicked on
-                Movie currentMovie = mAdapter.getItem(position);
+                Movie currentMovie = mAdapter.);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Uri earthquakeUri = Uri.parse(currentMovie.getUrl());
