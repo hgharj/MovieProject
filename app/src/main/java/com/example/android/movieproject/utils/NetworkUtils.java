@@ -81,12 +81,15 @@ public class NetworkUtils {
             JSONArray results = reader.getJSONArray("results");
             for (int i =0; i < results.length(); i++){
                 JSONObject currentMovie = results.getJSONObject(i);
-                JSONObject properties = currentMovie.getJSONObject("properties");
-                double mag = properties.getDouble("mag");
-                String place = properties.getString("place");
-                long time = properties.getLong("time");
-                String url = properties.getString("url");
-                Movies movie = new Movies(mag,place,time,url);
+                int movieId = currentMovie.getInt("id");
+                double voteAvgDouble = currentMovie.getDouble("vote_average");
+                float voteAvg = (float)voteAvgDouble;
+                String title = currentMovie.getString("title");
+                double ratings = currentMovie.getDouble("popularity");
+                String poster = currentMovie.getString("poster_path");
+                String releaseDate = currentMovie.getString("release_date");
+                String plot = currentMovie.getString("overview");
+                Movies movie = new Movies(title,poster,releaseDate,voteAvg,plot);
                 movies.add(movie);
 
             }
@@ -212,12 +215,12 @@ public class NetworkUtils {
                     // get the cookie if need, for login
                     String cookies = conn.getHeaderField("Set-Cookie");
 
-                    // open the new connnection again
+                    // open the new connection again
                     conn = (HttpURLConnection) new URL(newUrl).openConnection();
                     conn.setRequestProperty("Cookie", cookies);
                     conn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
                     conn.addRequestProperty("User-Agent", "Mozilla");
-                    conn.addRequestProperty("Referer", "google.com");
+                    conn.addRequestProperty("Referrer", "google.com");
 
                     System.out.println("Redirect to URL : " + newUrl);
 
