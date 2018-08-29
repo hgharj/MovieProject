@@ -1,13 +1,13 @@
 package com.example.android.movieproject;
 
-public class Movies {
+public class Movie {
     private String mMovieTitle;
     private String mPosterImg;
     private String mReleaseDate;
     private float mVoteAvg;
     private String mPlot;
 
-    public Movies(String movieTitle, String posterImage, String releaseDate, float voteAverage, String plot){
+    public Movie(String movieTitle, String posterImage, String releaseDate, float voteAverage, String plot){
         mMovieTitle = movieTitle;
         mPosterImg = posterImage;
         mReleaseDate = releaseDate;

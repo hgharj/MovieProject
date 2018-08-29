@@ -3,7 +3,7 @@ package com.example.android.movieproject.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.android.movieproject.Movies;
+import com.example.android.movieproject.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +34,9 @@ public class NetworkUtils {
     }
 
     /**
-     * Query the USGS dataset and return an {@link ArrayList <Movies>} object to represent a single movie.
+     * Query the USGS dataset and return an {@link ArrayList <Movie>} object to represent a single movie.
      */
-    public  static ArrayList<Movies> fetchMovieData(String requestUrl) {
+    public static ArrayList<Movie> fetchMovieData(String requestUrl) {
         // Create URL object
 //        URL url = createUrl(requestUrl);
 
@@ -52,24 +52,24 @@ public class NetworkUtils {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        ArrayList<Movies> movie = extractMovies(jsonResponse);
+        ArrayList<Movie> movie = extractMovies(jsonResponse);
 
         // Return the {@link Event}
         return movie;
     }
 
     /**
-     * Return a list of {@link Movies} objects that has been built up from
+     * Return a list of {@link Movie} objects that has been built up from
      * parsing a JSON response.
      */
-    public static ArrayList<Movies> extractMovies(String movieJSON) {
+    public static ArrayList<Movie> extractMovies(String movieJSON) {
 
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(movieJSON)) {
             return null;
         }
         // Create an empty ArrayList that we can start adding movies to
-        ArrayList<Movies> movies = new ArrayList<>();
+        ArrayList<Movie> movies = new ArrayList<>();
 
         // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -89,7 +89,7 @@ public class NetworkUtils {
                 String poster = currentMovie.getString("poster_path");
                 String releaseDate = currentMovie.getString("release_date");
                 String plot = currentMovie.getString("overview");
-                Movies movie = new Movies(title,poster,releaseDate,voteAvg,plot);
+                Movie movie = new Movie(title,poster,releaseDate,voteAvg,plot);
                 movies.add(movie);
 
             }

@@ -29,15 +29,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         this.mCursor=cursor;
     }
 
-    private final List<Movies> movies;
-    private final OnItemClickListener listener;
+    private  List<Movie> movies;
+    private  OnItemClickListener listener;
 
-    public MovieListAdapter(List<Movies> movies,OnItemClickListener listener){
+    public MovieListAdapter(List<Movie> movies, OnItemClickListener listener){
         this.movies=movies;
         this.listener=listener;
     }
     public interface OnItemClickListener {
-        public void onItemClick(Movies movie);
+        public void onItemClick(Movie movie);
     }
 
     @Override
@@ -78,6 +78,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
     }
 
+    public void clear(){
+       movies.clear();
+    }
+
+    public void addAll(List<Movie> movies){
+        movies.addAll(movies);
+    }
+
     @Override
     public int getItemCount() {
         if (mCursor == null) return 0;
@@ -103,7 +111,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             movieImg = (ImageView) v.findViewById(R.id.plot_tv);
         }
         
-        public void bind(final Movies movie, final OnItemClickListener listener){
+        public void bind(final Movie movie, final OnItemClickListener listener){
             title.setText(movie.getMovieTitle());
             plot.setText(movie.getPlot());
             releaseDate.setText(movie.getReleaseDate());
