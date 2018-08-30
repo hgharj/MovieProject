@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
 
+        mProgressBar = (ProgressBar) findViewById(R.id.loading_spinner);
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         mMovieRecyclerView = (RecyclerView)findViewById(R.id.movie_recycler_view);
         mMovieRecyclerView.setLayoutManager(
                 new GridLayoutManager(this,2)
@@ -125,9 +127,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
-            mProgressBar = (ProgressBar) findViewById(R.id.loading_spinner);
             mProgressBar.setVisibility(View.GONE);
-            mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
             // Update empty state with no connection error message
             mEmptyStateTextView.setText(R.string.no_internet);
         }
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity
         // Clear the adapter of previous movie data
         if (mAdapter != null) mAdapter.clear();
 
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // If there is a valid list of {@link Movie}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
 //            updateUi(movies);
@@ -187,7 +187,6 @@ public class MainActivity extends AppCompatActivity
         }
         mEmptyStateTextView.setText(R.string.no_movies);
         mProgressBar.setVisibility(View.GONE);
-//
     }
 
     @Override

@@ -186,6 +186,7 @@ public class NetworkUtils {
 
         private URL main(URL url){
             String newUrl = "";
+            URL outURL = url;
 
             try {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -203,9 +204,11 @@ public class NetworkUtils {
                             || status == HttpURLConnection.HTTP_MOVED_PERM
                             || status == HttpURLConnection.HTTP_SEE_OTHER)
                         redirect = true;
+                    outURL=null;
                 }
 
                 System.out.println("Response Code ... " + status);
+
 
                 if (redirect) {
 
@@ -224,6 +227,7 @@ public class NetworkUtils {
 
                     System.out.println("Redirect to URL : " + newUrl);
 
+                    outURL = createUrl(newUrl);
                 }
 //                BufferedReader in = new BufferedReader(
 //                        new InputStreamReader(conn.getInputStream()));
@@ -242,7 +246,6 @@ public class NetworkUtils {
                 e.printStackTrace();
             }
 
-            URL outURL = createUrl(newUrl);
             return outURL;
         }
     }

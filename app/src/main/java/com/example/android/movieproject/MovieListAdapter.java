@@ -21,13 +21,13 @@ import java.util.List;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>{
 
-    private Context mContext;
-    private Cursor mCursor;
+//    private Context mContext;
+//    private Cursor mCursor;
 
-    public MovieListAdapter(Context context,Cursor cursor){
-        this.mContext=context;
-        this.mCursor=cursor;
-    }
+//    public MovieListAdapter(Context context,Cursor cursor){
+//        this.mContext=context;
+//        this.mCursor=cursor;
+//    }
 
     private  List<Movie> movies;
     private  OnItemClickListener listener;
@@ -37,26 +37,26 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         this.listener=listener;
     }
     public interface OnItemClickListener {
-        public void onItemClick(Movie movie);
+        void onItemClick(Movie movie);
     }
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        mCursor.moveToPosition(position);
-
-        int movieListImageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
-        int movieTitleIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE);
-        int releaseDateIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
-        int voteAverageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
-        int voteDescIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_DESCRIPTION);
-        int plotIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_PLOT);
-
-        int movieImageRes = mCursor.getInt(movieListImageIndex);
-        String movieTitle = mCursor.getString(movieTitleIndex);
-        long releaseDate = mCursor.getLong(releaseDateIndex);
-        double voteAverage = mCursor.getDouble(voteAverageIndex);
-        String voteDesc = mCursor.getString(voteDescIndex);
-        String plot = mCursor.getString(plotIndex);
+//        mCursor.moveToPosition(position);
+//
+//        int movieListImageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
+//        int movieTitleIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE);
+//        int releaseDateIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
+//        int voteAverageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
+//        int voteDescIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_DESCRIPTION);
+//        int plotIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_PLOT);
+//
+//        int movieImageRes = mCursor.getInt(movieListImageIndex);
+//        String movieTitle = mCursor.getString(movieTitleIndex);
+//        long releaseDate = mCursor.getLong(releaseDateIndex);
+//        double voteAverage = mCursor.getDouble(voteAverageIndex);
+//        String voteDesc = mCursor.getString(voteDescIndex);
+//        String plot = mCursor.getString(plotIndex);
 
         holder.bind(movies.get(position),listener);
         /*int imgRes = PlantUtils.getPlantImageRes(mContext, timeNow - createdAt, timeNow - wateredAt, plantType);
@@ -67,16 +67,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         */
     }
 
-    public void swapCursor(Cursor newCursor) {
-        if (mCursor != null) {
-            mCursor.close();
-        }
-        mCursor = newCursor;
-        if (mCursor != null) {
-            // Force the RecyclerView to refresh
-            this.notifyDataSetChanged();
-        }
-    }
+//    public void swapCursor(Cursor newCursor) {
+//        if (mCursor != null) {
+//            mCursor.close();
+//        }
+//        mCursor = newCursor;
+//        if (mCursor != null) {
+//            // Force the RecyclerView to refresh
+//            this.notifyDataSetChanged();
+//        }
+//    }
 
     public void clear(){
        movies.clear();
@@ -88,18 +88,21 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public int getItemCount() {
-        if (mCursor == null) return 0;
-        return mCursor.getCount();
+//        if (mCursor == null) return 0;
+//        return mCursor.getCount();
+        return movies.size();
     }
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view=inflater.inflate(R.layout.list_item,parent,false);
-        return new MovieViewHolder(view);
+//        LayoutInflater inflater = LayoutInflater.from(mContext);
+//        View view=inflater.inflate(R.layout.list_item,parent,false);
+//        return new MovieViewHolder(view);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_main, parent, false);
+        return new MovieViewHolder(v);
     }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder{
+    static class MovieViewHolder extends RecyclerView.ViewHolder{
         private ImageView movieImg;
         private TextView title;
         private TextView plot;
