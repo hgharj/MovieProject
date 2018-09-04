@@ -22,18 +22,18 @@ import static com.example.android.movieproject.provider.MovieContract.PATH_MOVIE
 
 public class DetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int SINGLE_LOADER_ID = 200;
+    private static final int INVALID_MOVIE_ID = -1;
     public static final String EXTRA_MOVIE_ID = "com.example.android.mygarden.extra.MOVIE_ID";
     long mMovieId;
+
     public static final String LOG_TAG = DetailActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
-        mMovieId = getIntent().getLongExtra(EXTRA_MOVIE_ID, MovieContract.INVALID_MOVIE_ID);
-        // This activity displays single plant information that is loaded using a cursor loader
-        getSupportLoaderManager().initLoader(SINGLE_LOADER_ID, null, this);
+        mMovieId = getIntent().getLongExtra(EXTRA_MOVIE_ID, INVALID_MOVIE_ID);
+
     }
 
     public void onBackButtonClick(View view) {
@@ -67,7 +67,10 @@ public class DetailActivity extends AppCompatActivity
         String plot = cursor.getString(plotIndex);
 
         ImageView imgPoster = findViewById(R.id.poster_iv);
-        Picasso.with(this).load(movieImgRes).into(imgPoster);
+        Picasso.with(this).load(movieImgRes)
+                .placeholder(R.drawable.imageunavailabe)
+                .error(R.drawable.imageunavailabe)
+                .into(imgPoster);
 
         ((TextView) findViewById(R.id.movie_title_tv)).setText(String.valueOf(mMovieId));
         ((TextView) findViewById(R.id.release_date_tv)).setText(MovieUtils.getReleaseDateAsString(this,releaseDate));

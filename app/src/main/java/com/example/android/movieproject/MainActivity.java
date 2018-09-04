@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.drm.DrmStore;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Context context = this;
+        final Context context = this;
         ConnectivityManager cm =
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -62,21 +63,28 @@ public class MainActivity extends AppCompatActivity
 
         mProgressBar = (ProgressBar) findViewById(R.id.loading_spinner);
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        mMovieRecyclerView = (RecyclerView)findViewById(R.id.movie_recycler_view);
-        mMovieRecyclerView.setLayoutManager(
-                new GridLayoutManager(this,2)
-        );
 
-        // Create a new adapter that takes an empty list of movies as input
-//        mAdapter = new MovieListAdapter(this, null);
         ArrayList movies = new ArrayList<Movie>();
+//        mAdapter = new MovieListAdapter();
         mAdapter = new MovieListAdapter(movies, new MovieListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
                 Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
+                Intent detailIntent = new Intent(context,DetailActivity.class);
+                detailIntent.putExtra("MOVIE_ID",movie.getMovieId());
+
+                startActivity(detailIntent);
+
             }
         });
-        mMovieRecyclerView.setAdapter(mAdapter);
+
+        mMovieRecyclerView = (RecyclerView)findViewById(R.id.movie_recycler_view);
+
+
+        // Create a new adapter that takes an empty list of movies as input
+//        mAdapter = new MovieListAdapter(this, null);
+
+
 //        mMovieRecyclerView.setAdapter(new MovieListAdapter(new List<Movie>, new MovieListAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(Movie movie) {
@@ -123,7 +131,7 @@ public class MainActivity extends AppCompatActivity
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
+            Loader loader = loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
         } else {
             // Otherwise, display error
             // First, hide loading indicator so error message will be visible
@@ -131,7 +139,6 @@ public class MainActivity extends AppCompatActivity
             // Update empty state with no connection error message
             mEmptyStateTextView.setText(R.string.no_internet);
         }
-
     }
 
 //    @Override
@@ -176,17 +183,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, final List<Movie> movies) {
         // Clear the adapter of previous movie data
-        if (mAdapter != null) mAdapter.clear();
+        if (mAdapter != null)
+            mAdapter.clear();
 
         // If there is a valid list of {@link Movie}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
 //            updateUi(movies);
             mAdapter.addAll(movies);
-
+            mProgressBar.setVisibility(View.GONE);
+            mEmptyStateTextView.setVisibility(View.GONE);
+        } else {
+            mEmptyStateTextView.setText(R.string.no_movies);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
         }
-        mEmptyStateTextView.setText(R.string.no_movies);
-        mProgressBar.setVisibility(View.GONE);
+
+        mMovieRecyclerView.setAdapter(mAdapter);
+        mMovieRecyclerView.setLayoutManager(
+                new GridLayoutManager(this,2)
+        );
+        mMovieRecyclerView.setHasFixedSize(true);
     }
 
     @Override

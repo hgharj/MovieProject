@@ -86,10 +86,13 @@ public class NetworkUtils {
                 float voteAvg = (float)voteAvgDouble;
                 String title = currentMovie.getString("title");
                 double ratings = currentMovie.getDouble("popularity");
-                String poster = currentMovie.getString("poster_path");
+                String posterPathExtension = currentMovie.getString("poster_path");
+                String posterBaseUrl = "http://image.tmdb.org/t/p/";
+                String posterSize = "w185/";
+                String poster = posterBaseUrl + posterSize + posterPathExtension;
                 String releaseDate = currentMovie.getString("release_date");
                 String plot = currentMovie.getString("overview");
-                Movie movie = new Movie(title,poster,releaseDate,voteAvg,plot);
+                Movie movie = new Movie(movieId,title,poster,releaseDate,voteAvg,plot);
                 movies.add(movie);
 
             }

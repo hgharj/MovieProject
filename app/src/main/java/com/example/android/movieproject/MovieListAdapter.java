@@ -29,19 +29,21 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 //        this.mCursor=cursor;
 //    }
 
-    private  List<Movie> movies;
-    private  OnItemClickListener listener;
+    private final List<Movie> movies;
+    private final OnItemClickListener listener;
 
     public MovieListAdapter(List<Movie> movies, OnItemClickListener listener){
         this.movies=movies;
         this.listener=listener;
     }
+
     public interface OnItemClickListener {
         void onItemClick(Movie movie);
     }
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
+        holder.bind(movies.get(position),listener);
 //        mCursor.moveToPosition(position);
 //
 //        int movieListImageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
@@ -58,7 +60,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 //        String voteDesc = mCursor.getString(voteDescIndex);
 //        String plot = mCursor.getString(plotIndex);
 
-        holder.bind(movies.get(position),listener);
+
         /*int imgRes = PlantUtils.getPlantImageRes(mContext, timeNow - createdAt, timeNow - wateredAt, plantType);
 
         holder.plantImageView.setImageResource(imgRes);
@@ -83,7 +85,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     }
 
     public void addAll(List<Movie> movies){
-        movies.addAll(movies);
+        this.movies.addAll(movies);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 //        LayoutInflater inflater = LayoutInflater.from(mContext);
 //        View view=inflater.inflate(R.layout.list_item,parent,false);
 //        return new MovieViewHolder(view);
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_main, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new MovieViewHolder(v);
     }
 
@@ -111,15 +113,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         public MovieViewHolder(View v){
             super(v);
-            movieImg = (ImageView) v.findViewById(R.id.plot_tv);
+            movieImg = (ImageView) v.findViewById(R.id.movie_list_item_image);
         }
         
         public void bind(final Movie movie, final OnItemClickListener listener){
-            title.setText(movie.getMovieTitle());
-            plot.setText(movie.getPlot());
-            releaseDate.setText(movie.getReleaseDate());
-            voteAvg.setRating(movie.getVoteAverage());
-            Picasso.with(itemView.getContext()).load(movie.getPosterImage()).into(movieImg);
+//            title.setText(movie.getMovieTitle());
+//            plot.setText(movie.getPlot());
+//            releaseDate.setText(movie.getReleaseDate());
+//            voteAvg.setRating(movie.getVoteAverage());
+            Picasso.with(itemView.getContext()).load(movie.getPosterImage())
+                    .placeholder(R.drawable.imageunavailabe)
+                    .error(R.drawable.imageunavailabe)
+                    .into(movieImg);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
