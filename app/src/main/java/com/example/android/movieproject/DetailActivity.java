@@ -1,6 +1,7 @@
 package com.example.android.movieproject;
 
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,16 @@ public class DetailActivity extends AppCompatActivity
     private static final int INVALID_MOVIE_ID = -1;
     public static final String EXTRA_MOVIE_ID = "com.example.android.mygarden.extra.MOVIE_ID";
     long mMovieId;
+    String mMovieTitle;
+    String mPosterUrl;
+    String mReleaseDate;
+    float mVoteAverage;
+    String mPlot;
+    TextView mMovieTitle_tv;
+    ImageView mPoster_tv;
+    TextView mReleaseDate_tv;
+    RatingBar mVoteAverage_rb;
+    TextView mPlot_tv;
 
     public static final String LOG_TAG = DetailActivity.class.getName();
 
@@ -32,10 +43,33 @@ public class DetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
-        mMovieId = getIntent().getLongExtra(EXTRA_MOVIE_ID, INVALID_MOVIE_ID);
+        Intent data = getIntent();
+        mMovieId = data.getLongExtra(EXTRA_MOVIE_ID, INVALID_MOVIE_ID);
+        mMovieTitle = data.getStringExtra("MOVIE_TITLE");
+        mPosterUrl = data.getStringExtra("POSTER_URL");
+        mReleaseDate = data.getStringExtra("RELEASE_DATE");
+        mVoteAverage = data.getFloatExtra("VOTE_AVERAGE",0);
+        mPlot = data.getStringExtra("PLOT");
 
+        mMovieTitle_tv = findViewById(R.id.movie_title_tv);
+        mPoster_tv = findViewById(R.id.poster_iv);
+        mReleaseDate_tv = findViewById(R.id.release_date_tv);
+        mVoteAverage_rb = findViewById(R.id.vote_avg);
+        mPlot_tv = findViewById(R.id.plot_tv);
+
+        DisplayData(mMovieTitle,mPosterUrl,mReleaseDate,mVoteAverage,mPlot);
     }
 
+    public void DisplayData(String title, String url, String releaseDate, float voteAverage, String plot){
+        mMovieTitle_tv.setText(title);
+        Picasso.with(this).load(url)
+                .placeholder(R.drawable.imageunavailabe)
+                .error(R.drawable.imageunavailabe)
+                .into(mPoster_tv);
+        mReleaseDate_tv.setText(releaseDate);
+        mVoteAverage_rb.setRating(voteAverage);
+        mPlot_tv.setText(plot);
+    }
     public void onBackButtonClick(View view) {
         finish();
     }
@@ -56,14 +90,12 @@ public class DetailActivity extends AppCompatActivity
         int moviePosterIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
         int releaseDateIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
         int voteAverageIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
-        int voteDescriptionIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_DESCRIPTION);
         int plotIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_PLOT);
 
         String movieTitle = cursor.getString(movieTitleIndex);
         String movieImgRes = cursor.getString(moviePosterIndex);
         long releaseDate = cursor.getLong(releaseDateIndex);
         float voteAverage = cursor.getFloat(voteAverageIndex);
-        String voteDescription = cursor.getString(voteDescriptionIndex);
         String plot = cursor.getString(plotIndex);
 
         ImageView imgPoster = findViewById(R.id.poster_iv);
@@ -77,7 +109,6 @@ public class DetailActivity extends AppCompatActivity
 
         ((RatingBar) findViewById(R.id.vote_avg)).setRating(Float.valueOf(voteAverage));
 
-        ((TextView) findViewById(R.id.vote_desc_tv)).setText(voteDescription);
         ((TextView) findViewById(R.id.plot_tv)).setText(plot);
     }
 

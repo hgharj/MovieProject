@@ -121,7 +121,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 //            plot.setText(movie.getPlot());
 //            releaseDate.setText(movie.getReleaseDate());
 //            voteAvg.setRating(movie.getVoteAverage());
-            Picasso.with(itemView.getContext()).load(movie.getPosterImage())
+            Picasso.with(itemView.getContext()).load(movie.getPosterUrl())
                     .placeholder(R.drawable.imageunavailabe)
                     .error(R.drawable.imageunavailabe)
                     .into(movieImg);

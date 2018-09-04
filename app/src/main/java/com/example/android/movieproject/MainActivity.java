@@ -72,6 +72,11 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
                 Intent detailIntent = new Intent(context,DetailActivity.class);
                 detailIntent.putExtra("MOVIE_ID",movie.getMovieId());
+                detailIntent.putExtra("MOVIE_TITLE", movie.getMovieTitle());
+                detailIntent.putExtra("POSTER_URL", movie.getPosterUrl());
+                detailIntent.putExtra("RELEASE_DATE", movie.getReleaseDate());
+                detailIntent.putExtra("VOTE_AVERAGE", movie.getVoteAverage());
+                detailIntent.putExtra("PLOT", movie.getPlot());
 
                 startActivity(detailIntent);
 

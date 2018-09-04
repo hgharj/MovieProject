@@ -31,7 +31,6 @@ public class MovieContract  {
         public static final String COLUMN_MOVIE_POSTER = "moviePoster";
         public static final String COLUMN_RELEASE_DATE = "releaseDate";
         public static final String COLUMN_VOTE_AVERAGE = "voteAverage";
-        public static final String COLUMN_VOTE_DESCRIPTION = "voteDescription";
         public static final String COLUMN_PLOT = "plot";
     }
 
