@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity
 
         mMovieRecyclerView.setAdapter(mAdapter);
         mMovieRecyclerView.setLayoutManager(
-                new GridLayoutManager(this,2)
+                new GridLayoutManager(this,3)
         );
         mMovieRecyclerView.setHasFixedSize(true);
     }
@@ -213,14 +213,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<List<Movie>> movies) {
         mAdapter.clear();
-    }
-
-    public void onMovieClick(View view) {
-        ImageView imgView = (ImageView) view.findViewById(R.id.movie_list_item_image);
-        long movieId = (long) imgView.getTag();
-        Intent intent = new Intent(getBaseContext(), DetailActivity.class);
-        intent.putExtra(DetailActivity.EXTRA_MOVIE_ID, movieId);
-        startActivity(intent);
     }
 
     @Override
