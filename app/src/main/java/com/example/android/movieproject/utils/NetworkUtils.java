@@ -88,7 +88,7 @@ public class NetworkUtils {
                 double ratings = currentMovie.getDouble("popularity");
                 String posterPathExtension = currentMovie.getString("poster_path");
                 String posterBaseUrl = "http://image.tmdb.org/t/p/";
-                String posterSize = "w185/";
+                String posterSize = "w342/";
                 String poster = posterBaseUrl + posterSize + posterPathExtension;
                 String releaseDate = currentMovie.getString("release_date");
                 String plot = currentMovie.getString("overview");

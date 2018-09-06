@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,7 +71,6 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new MovieListAdapter(movies, new MovieListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
                 Intent detailIntent = new Intent(context,DetailActivity.class);
                 detailIntent.putExtra("MOVIE_ID",movie.getMovieId());
                 detailIntent.putExtra("MOVIE_TITLE", movie.getMovieTitle());
@@ -204,10 +205,28 @@ public class MainActivity extends AppCompatActivity
         }
 
         mMovieRecyclerView.setAdapter(mAdapter);
-        mMovieRecyclerView.setLayoutManager(
-                new GridLayoutManager(this,3)
-        );
+        GridLayoutManager layoutManager = new GridLayoutManager(this, getSpanCount(), GridLayoutManager.VERTICAL, false);
+//        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                return position == 0 ? 2 : 1;//put your condition here
+//            }
+//        });
+        mMovieRecyclerView.setLayoutManager(layoutManager);
         mMovieRecyclerView.setHasFixedSize(true);
+    }
+    private int getSpanCount(){
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int screenSize = metrics.widthPixels;
+
+        float minElemSize = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                100,
+                metrics
+        );
+        return (int)(screenSize/minElemSize);
     }
 
     @Override

@@ -106,10 +106,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     static class MovieViewHolder extends RecyclerView.ViewHolder{
         private ImageView movieImg;
-        private TextView title;
-        private TextView plot;
-        private TextView releaseDate;
-        private RatingBar voteAvg;
+//        private TextView title;
+//        private TextView plot;
+//        private TextView releaseDate;
+//        private RatingBar voteAvg;
 
         public MovieViewHolder(View v){
             super(v);

@@ -8,6 +8,8 @@
 
     <string name="no_movies">No movies found.</string>
     <string name="no_internet">No internet connection.</string>
+    <string name="release_date_default">Coming Soon.</string>
+    <string name="plot_default">No synopsis available.</string>
 
     <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
     <string name="settings_menu_item">Settings</string>

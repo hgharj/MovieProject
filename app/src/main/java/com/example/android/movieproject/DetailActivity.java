@@ -35,6 +35,7 @@ public class DetailActivity extends AppCompatActivity
     ImageView mPoster_tv;
     TextView mReleaseDate_tv;
     RatingBar mVoteAverage_rb;
+    TextView mVoteAverageDesc_tv;
     TextView mPlot_tv;
 
     public static final String LOG_TAG = DetailActivity.class.getName();
@@ -55,6 +56,7 @@ public class DetailActivity extends AppCompatActivity
         mPoster_tv = findViewById(R.id.poster_iv);
         mReleaseDate_tv = findViewById(R.id.release_date_tv);
         mVoteAverage_rb = findViewById(R.id.vote_avg);
+        mVoteAverageDesc_tv = findViewById(R.id.vote_avg_desc_tv);
         mPlot_tv = findViewById(R.id.plot_tv);
 
         DisplayData(mMovieTitle,mPosterUrl,mReleaseDate,mVoteAverage,mPlot);
@@ -68,6 +70,7 @@ public class DetailActivity extends AppCompatActivity
                 .into(mPoster_tv);
         mReleaseDate_tv.setText(releaseDate);
         mVoteAverage_rb.setRating(voteAverage);
+        mVoteAverageDesc_tv.setText(String.valueOf(voteAverage));
         mPlot_tv.setText(plot);
     }
     public void onBackButtonClick(View view) {
