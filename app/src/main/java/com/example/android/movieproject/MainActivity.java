@@ -87,41 +87,6 @@ public class MainActivity extends AppCompatActivity
         mMovieRecyclerView = (RecyclerView)findViewById(R.id.movie_recycler_view);
 
 
-        // Create a new adapter that takes an empty list of movies as input
-//        mAdapter = new MovieListAdapter(this, null);
-
-
-//        mMovieRecyclerView.setAdapter(new MovieListAdapter(new List<Movie>, new MovieListAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(Movie movie) {
-//                Toast.makeText(getBaseContext(), "Item Clicked", Toast.LENGTH_LONG).show();
-//            }
-//        }));
-
-//        getSupportLoaderManager().initLoader(MOVIE_LOADER_ID,null,this);
-        // Set the adapter on the {@link ListView}
-        // so the list can be populated in the user interface
-//        movieListView.setAdapter(mAdapter);
-
-        // Set an item click listener on the ListView, which sends an intent to a web browser
-        // to open a website with more information about the selected movie.
-//        mMovieRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Find the current movie that was clicked on
-//                android.graphics.Movie currentMovie = mAdapter.);
-//
-//                // Convert the String URL into a URI object (to pass into the Intent constructor)
-//                Uri movieUri = Uri.parse(currentMovie.getUrl());
-//
-//                // Create a new intent to view the movie URI
-//                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, movieUri);
-//
-//                // Send the intent to launch a new activity
-//                startActivity(websiteIntent);
-//            }
-//        });
-
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -146,25 +111,6 @@ public class MainActivity extends AppCompatActivity
             mEmptyStateTextView.setText(R.string.no_internet);
         }
     }
-
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        Uri MOVIE_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build();
-//        return new CursorLoader(this, MOVIE_URI, null,
-//                null, null, MovieEntry.COLUMN_RELEASE_DATE);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-//        cursor.moveToFirst();
-//        mAdapter.swapCursor(cursor);
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader loader) {
-//        //mAdapter.clear();
-//        mAdapter.swapCursor(null);
-//    }
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {

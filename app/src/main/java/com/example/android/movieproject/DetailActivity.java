@@ -69,7 +69,7 @@ public class DetailActivity extends AppCompatActivity
                 .error(R.drawable.imageunavailabe)
                 .into(mPoster_tv);
         mReleaseDate_tv.setText(releaseDate);
-        mVoteAverage_rb.setRating(voteAverage);
+        mVoteAverage_rb.setRating(Float.parseFloat(Float.toString(voteAverage)));
         mVoteAverageDesc_tv.setText(String.valueOf(voteAverage));
         mPlot_tv.setText(plot);
     }
@@ -97,7 +97,7 @@ public class DetailActivity extends AppCompatActivity
 
         String movieTitle = cursor.getString(movieTitleIndex);
         String movieImgRes = cursor.getString(moviePosterIndex);
-        long releaseDate = cursor.getLong(releaseDateIndex);
+        String releaseDate = cursor.getString(releaseDateIndex);
         float voteAverage = cursor.getFloat(voteAverageIndex);
         String plot = cursor.getString(plotIndex);
 
@@ -108,7 +108,7 @@ public class DetailActivity extends AppCompatActivity
                 .into(imgPoster);
 
         ((TextView) findViewById(R.id.movie_title_tv)).setText(String.valueOf(mMovieId));
-        ((TextView) findViewById(R.id.release_date_tv)).setText(MovieUtils.getReleaseDateAsString(this,releaseDate));
+        ((TextView) findViewById(R.id.release_date_tv)).setText(releaseDate);
 
         ((RatingBar) findViewById(R.id.vote_avg)).setRating(Float.valueOf(voteAverage));
 

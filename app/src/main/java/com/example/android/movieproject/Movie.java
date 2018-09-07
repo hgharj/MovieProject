@@ -1,5 +1,7 @@
 package com.example.android.movieproject;
 
+import com.example.android.movieproject.utils.MovieUtils;
+
 public class Movie {
     private long mMovieId;
     private String mMovieTitle;
@@ -20,7 +22,7 @@ public class Movie {
     public long getMovieId() { return mMovieId;}
     public String getMovieTitle() { return mMovieTitle;}
     public String getPosterUrl() { return mPosterUrl;}
-    public String getReleaseDate() { return mReleaseDate;}
+    public String getReleaseDate() { return MovieUtils.convertYYYY_MM_DD_MiddleEndian(mReleaseDate);}
     public float getVoteAverage() { return mVoteAvg;}
     public String getPlot() { return mPlot;}
 

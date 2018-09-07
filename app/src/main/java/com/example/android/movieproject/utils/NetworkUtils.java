@@ -82,10 +82,9 @@ public class NetworkUtils {
             for (int i =0; i < results.length(); i++){
                 JSONObject currentMovie = results.getJSONObject(i);
                 int movieId = currentMovie.getInt("id");
-                double voteAvgDouble = currentMovie.getDouble("vote_average");
-                float voteAvg = (float)voteAvgDouble;
+                String voteAvgDouble = currentMovie.getString("vote_average");
+                float voteAvg = Float.parseFloat(voteAvgDouble);
                 String title = currentMovie.getString("title");
-                double ratings = currentMovie.getDouble("popularity");
                 String posterPathExtension = currentMovie.getString("poster_path");
                 String posterBaseUrl = "http://image.tmdb.org/t/p/";
                 String posterSize = "w342/";
