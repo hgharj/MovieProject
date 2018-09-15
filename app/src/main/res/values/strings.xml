@@ -14,17 +14,20 @@
     <string name="release_date_label">Release Date </string>
     <string name="plot_label">Plot </string>
 
+    <string name="movie_url" translatable="false">https://api.themoviedb.org/3/movie/</string>
+    <string name="endpoint_top_rated" translatable="false">top_rated?</string>
+    <string name="endpoint_popular" translatable="false">popular?</string>
+    <string name="api_key" translatable="false">ENTER API KEY HERE</string>
+
     <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
     <string name="settings_menu_item">Settings</string>
 
-    <string name="settings_order_by_most_popular_desc_label">Most Popular Descending</string>
+    <!--MovieDB provides a way to sort by movies by ascending or descending, but it does not appear to work
+    therefore only descending is used.-->
+    <string name="settings_order_by_most_popular_desc_label">Most Popular</string>
     <string name="settings_order_by_most_popular_desc_value" translatable="false">popularity.desc</string>
-    <string name="settings_order_by_most_popular_asc_label">Most Popular Ascending</string>
-    <string name="settings_order_by_most_popular_asc_value" translatable="false">popularity.asc</string>
-    <string name="settings_order_by_highest_rated_desc_label">Highest Rated Descending</string>
+    <string name="settings_order_by_highest_rated_desc_label">Highest Rated</string>
     <string name="settings_order_by_highest_rated_desc_value" translatable="false">vote_average.desc</string>
-    <string name="settings_order_by_highest_rated_asc_label">Highest Rated Ascending</string>
-    <string name="settings_order_by_highest_rated_asc_value" translatable="false">vote_average.asc</string>
 
     <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
     <string name="settings_order_by_label">Order By</string>

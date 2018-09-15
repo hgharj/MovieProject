@@ -1,13 +1,5 @@
 package com.example.android.movieproject.utils;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.view.View;
-
-import com.example.android.movieproject.R;
-import com.squareup.picasso.Picasso;
-
 import java.util.HashMap;
 
 /**
@@ -15,26 +7,26 @@ import java.util.HashMap;
  */
 
 public class MovieUtils {
-    public static String convertYYYY_MM_DD_MiddleEndian(String date){
-        String sYear = date.substring(0,4);
+    public static String convertYYYY_MM_DD_MiddleEndian(String date) {
+        String sYear = date.substring(0, 4);
         int length = date.length();
-        int iMonth = Integer.parseInt(date.substring(5,7));
-        String sDay = date.substring(8,10);
+        int iMonth = Integer.parseInt(date.substring(5, 7));
+        String sDay = date.substring(8, 10);
         HashMap monthIntToName = new HashMap();
-        monthIntToName.put(1,"January");
-        monthIntToName.put(2,"February");
-        monthIntToName.put(3,"March");
-        monthIntToName.put(4,"April");
-        monthIntToName.put(5,"May");
-        monthIntToName.put(6,"June");
-        monthIntToName.put(7,"July");
-        monthIntToName.put(8,"August");
-        monthIntToName.put(9,"September");
-        monthIntToName.put(10,"October");
-        monthIntToName.put(11,"November");
-        monthIntToName.put(12,"December");
+        monthIntToName.put(1, "January");
+        monthIntToName.put(2, "February");
+        monthIntToName.put(3, "March");
+        monthIntToName.put(4, "April");
+        monthIntToName.put(5, "May");
+        monthIntToName.put(6, "June");
+        monthIntToName.put(7, "July");
+        monthIntToName.put(8, "August");
+        monthIntToName.put(9, "September");
+        monthIntToName.put(10, "October");
+        monthIntToName.put(11, "November");
+        monthIntToName.put(12, "December");
         String sMonth = monthIntToName.get(iMonth).toString();
 
-        return  sMonth + " " + sDay + ", " + sYear;
+        return sMonth + " " + sDay + ", " + sYear;
     }
 }

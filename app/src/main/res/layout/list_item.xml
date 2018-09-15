@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <!--<GridView-->
-        <!--android:id="@+id/movie_grid"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content">-->
-        <!---->
-    <!--</GridView>-->
+
     <ImageView
         android:id="@+id/movie_list_item_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:padding="8dp"
-        tools:src="" />
-
-
+        android:layout_width="@dimen/list_item_image_dimen"
+        android:layout_height="@dimen/list_item_image_dimen"
+        android:padding="@dimen/list_item_padding" />
 </RelativeLayout>

@@ -1,13 +1,13 @@
 package com.example.android.movieproject;
 
-import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.example.android.movieproject.utils.NetworkUtils;
 
 import java.util.List;
 
-public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
+class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
     private String mUrl;
 

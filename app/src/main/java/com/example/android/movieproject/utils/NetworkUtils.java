@@ -23,18 +23,15 @@ public class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    /** Sample JSON response for a USGS query */
-    private static final String SAMPLE_JSON_RESPONSE = "https://api.themoviedb.org/3/movie/popular?api_key=78f8b58674adbaa0bf92f4de4e9a6dc3&sort_by=popularity.desc";//http vs https
-
     /**
      * This class is only meant to hold static variables and methods, which can be accessed
-     * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
+     * directly from the class name NetworkUtils (and an object instance of NetworkUtils is not needed).
      */
     private NetworkUtils() {
     }
 
     /**
-     * Query the USGS dataset and return an {@link ArrayList <Movie>} object to represent a single movie.
+     * Query the MovieDB API and return an {@link ArrayList <Movie>} object to represent a single movie.
      */
     public static ArrayList<Movie> fetchMovieData(String requestUrl) {
         // Create URL object
@@ -62,7 +59,7 @@ public class NetworkUtils {
      * Return a list of {@link Movie} objects that has been built up from
      * parsing a JSON response.
      */
-    public static ArrayList<Movie> extractMovies(String movieJSON) {
+    private static ArrayList<Movie> extractMovies(String movieJSON) {
 
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(movieJSON)) {
@@ -71,15 +68,14 @@ public class NetworkUtils {
         // Create an empty ArrayList that we can start adding movies to
         ArrayList<Movie> movies = new ArrayList<>();
 
-        // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
+        // Try to parse the JSON response. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
             JSONObject reader = new JSONObject(movieJSON);
-            //JSONObject sys  = reader.getJSONObject("sys");
             JSONArray results = reader.getJSONArray("results");
-            for (int i =0; i < results.length(); i++){
+            for (int i = 0; i < results.length(); i++) {
                 JSONObject currentMovie = results.getJSONObject(i);
                 int movieId = currentMovie.getInt("id");
                 String voteAvgDouble = currentMovie.getString("vote_average");
@@ -91,7 +87,7 @@ public class NetworkUtils {
                 String poster = posterBaseUrl + posterSize + posterPathExtension;
                 String releaseDate = currentMovie.getString("release_date");
                 String plot = currentMovie.getString("overview");
-                Movie movie = new Movie(movieId,title,poster,releaseDate,voteAvg,plot);
+                Movie movie = new Movie(movieId, title, poster, releaseDate, voteAvg, plot);
                 movies.add(movie);
 
             }
@@ -100,7 +96,7 @@ public class NetworkUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the movie JSON results", e);
+            Log.e("NetworkUtils", "Problem parsing the movie JSON results", e);
         }
 
         // Return the list of movies
@@ -135,8 +131,6 @@ public class NetworkUtils {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-
-
 
             urlConnection.setInstanceFollowRedirects(true);
             HttpURLConnection.setFollowRedirects(true);
@@ -184,16 +178,16 @@ public class NetworkUtils {
         }
         return output.toString();
     }
+
     private static class HttpRedirect {
 
-        private URL main(URL url){
+        private URL main(URL url) {
             String newUrl = "";
             URL outURL = url;
 
             try {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
-
 
                 System.out.println("Request URL ... " + url);
 
@@ -206,7 +200,7 @@ public class NetworkUtils {
                             || status == HttpURLConnection.HTTP_MOVED_PERM
                             || status == HttpURLConnection.HTTP_SEE_OTHER)
                         redirect = true;
-                    outURL=null;
+                    outURL = null;
                 }
 
                 System.out.println("Response Code ... " + status);
@@ -231,20 +225,7 @@ public class NetworkUtils {
 
                     outURL = createUrl(newUrl);
                 }
-//                BufferedReader in = new BufferedReader(
-//                        new InputStreamReader(conn.getInputStream()));
-//                String inputLine;
-//                StringBuffer html = new StringBuffer();
-//
-//                while ((inputLine = in.readLine()) != null) {
-//                    html.append(inputLine);
-//                }
-//                in.close();
-//
-//                System.out.println("URL Content... \n" + html.toString());
-//                System.out.println("Done");
-            }
-            catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 

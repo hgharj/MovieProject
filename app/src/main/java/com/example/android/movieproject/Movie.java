@@ -9,6 +9,13 @@ public class Movie {
     private String mReleaseDate;
     private float mVoteAvg;
     private String mPlot;
+    public static String MOVIE_ID="MOVIE_ID";
+    public static String MOVIE_TITLE="MOVIE_TITLE";
+    public static String POSTER_URL="POSTER_URL";
+    public static String RELEASE_DATE="RELEASE_DATE";
+    public static String VOTE_AVERAGE="VOTE_AVERAGE";
+    public static String PLOT="PLOT";
+
 
     public Movie(long movieId, String movieTitle, String posterImage, String releaseDate, float voteAverage, String plot){
         mMovieId = movieId;
