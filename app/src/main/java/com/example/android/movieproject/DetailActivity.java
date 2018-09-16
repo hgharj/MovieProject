@@ -12,12 +12,6 @@ import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
     private static final int INVALID_MOVIE_ID = -1;
-    private long mMovieId;
-    private String mMovieTitle;
-    private String mPosterUrl;
-    private String mReleaseDate;
-    private float mVoteAverage;
-    private String mPlot;
     private TextView mMovieTitle_tv;
     private ImageView mPoster_tv;
     private TextView mReleaseDate_tv;
@@ -32,12 +26,12 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
         Intent data = getIntent();
-        mMovieId = data.getLongExtra(Movie.MOVIE_ID, INVALID_MOVIE_ID);
-        mMovieTitle = data.getStringExtra(Movie.MOVIE_TITLE);
-        mPosterUrl = data.getStringExtra(Movie.POSTER_URL);
-        mReleaseDate = data.getStringExtra(Movie.RELEASE_DATE);
-        mVoteAverage = data.getFloatExtra(Movie.VOTE_AVERAGE, 0);
-        mPlot = data.getStringExtra(Movie.PLOT);
+        long movieId = data.getLongExtra(Movie.MOVIE_ID, INVALID_MOVIE_ID);
+        String movieTitle = data.getStringExtra(Movie.MOVIE_TITLE);
+        String posterUrl = data.getStringExtra(Movie.POSTER_URL);
+        String releaseDate = data.getStringExtra(Movie.RELEASE_DATE);
+        float voteAverage = data.getFloatExtra(Movie.VOTE_AVERAGE, 0);
+        String plot = data.getStringExtra(Movie.PLOT);
 
         mMovieTitle_tv = findViewById(R.id.movie_title_tv);
         mPoster_tv = findViewById(R.id.poster_iv);
@@ -46,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
         mVoteAverageDesc_tv = findViewById(R.id.vote_avg_desc_tv);
         mPlot_tv = findViewById(R.id.plot_tv);
 
-        DisplayData(mMovieTitle, mPosterUrl, mReleaseDate, mVoteAverage, mPlot);
+        DisplayData(movieTitle, posterUrl, releaseDate, voteAverage, plot);
     }
 
     private void DisplayData(String title, String url, String releaseDate, float voteAverage, String plot) {
