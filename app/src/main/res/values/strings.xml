@@ -17,7 +17,6 @@
     <string name="movie_url" translatable="false">https://api.themoviedb.org/3/movie/</string>
     <string name="endpoint_top_rated" translatable="false">top_rated?</string>
     <string name="endpoint_popular" translatable="false">popular?</string>
-    <string name="api_key" translatable="false">ENTER API KEY HERE</string>
 
     <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
     <string name="settings_menu_item">Settings</string>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,7 +15,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/detail_top_bottom_padding"
             android:paddingTop="@dimen/detail_top_bottom_padding"
-            android:text="@string/movie_title"
+            tools:text="@string/movie_title"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textSize="@dimen/detail_title_text_size"
@@ -29,6 +30,7 @@
             android:contentDescription="@string/movie_poster_content_desc"
             android:paddingBottom="@dimen/detail_top_bottom_padding"
             android:paddingLeft="@dimen/detail_items_left_padding"
+            tools:src="@drawable/imageunavailabe"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_title_tv" />
 
@@ -85,7 +87,7 @@
             android:id="@+id/release_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/release_date_default"
+            tools:text="@string/release_date_default"
             android:textSize="@dimen/detail_text_size"
             app:layout_constraintLeft_toLeftOf="@id/release_date_label"
             app:layout_constraintRight_toRightOf="@id/release_date_label"
@@ -107,7 +109,7 @@
             android:layout_height="wrap_content"
             android:justificationMode="inter_word"
             android:padding="@dimen/detail_items_full_padding"
-            android:text="@string/plot_default"
+            tools:text="@string/plot_default"
             android:textSize="@dimen/detail_text_size"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

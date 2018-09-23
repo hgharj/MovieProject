@@ -18,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class MoviePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-        private int mDefaultPrefIndex = 0;
+//        private int mDefaultPrefIndex = 0;
         private int mCurrentPrefIndex = 0;
 
         @Override
@@ -44,10 +44,9 @@ public class SettingsActivity extends AppCompatActivity {
                 preference.setSummary(stringValue);
             }
 
-            if (mCurrentPrefIndex != mDefaultPrefIndex) {
-                Intent intent = new Intent(this.getActivity(), MainActivity.class);
-                startActivity(intent);
-            }
+//            if (mCurrentPrefIndex != mDefaultPrefIndex) {
+//                getActivity().onBackPressed();
+//            }
             return true;
         }
 
@@ -55,10 +54,10 @@ public class SettingsActivity extends AppCompatActivity {
             preference.setOnPreferenceChangeListener(this);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
             String preferenceString = preferences.getString(preference.getKey(), "");
-            if (preference instanceof ListPreference) {
-                ListPreference listPreference = (ListPreference) preference;
-                mDefaultPrefIndex = listPreference.findIndexOfValue(preferenceString);
-            }
+//            if (preference instanceof ListPreference) {
+//                ListPreference listPreference = (ListPreference) preference;
+//                mDefaultPrefIndex = listPreference.findIndexOfValue(preferenceString);
+//            }
             onPreferenceChange(preference, preferenceString);
         }
 

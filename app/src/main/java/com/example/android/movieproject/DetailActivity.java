@@ -10,14 +10,17 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
-    private static final int INVALID_MOVIE_ID = -1;
-    private TextView mMovieTitle_tv;
-    private ImageView mPoster_tv;
-    private TextView mReleaseDate_tv;
-    private RatingBar mVoteAverage_rb;
-    private TextView mVoteAverageDesc_tv;
-    private TextView mPlot_tv;
+//    private static final int INVALID_MOVIE_ID = -1;
+    @BindView(R.id.movie_title_tv) TextView mMovieTitle_tv;
+    @BindView(R.id.poster_iv) ImageView mPoster_tv;
+    @BindView(R.id.release_date_tv) TextView mReleaseDate_tv;
+    @BindView(R.id.vote_avg) RatingBar mVoteAverage_rb;
+    @BindView(R.id.vote_avg_desc_tv) TextView mVoteAverageDesc_tv;
+    @BindView(R.id.plot_tv) TextView mPlot_tv;
 
     private static final String LOG_TAG = DetailActivity.class.getName();
 
@@ -25,20 +28,23 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
+        ButterKnife.bind(this);
         Intent data = getIntent();
-        long movieId = data.getLongExtra(Movie.MOVIE_ID, INVALID_MOVIE_ID);
-        String movieTitle = data.getStringExtra(Movie.MOVIE_TITLE);
-        String posterUrl = data.getStringExtra(Movie.POSTER_URL);
-        String releaseDate = data.getStringExtra(Movie.RELEASE_DATE);
-        float voteAverage = data.getFloatExtra(Movie.VOTE_AVERAGE, 0);
-        String plot = data.getStringExtra(Movie.PLOT);
+        Movie movie = data.getParcelableExtra("Movie");
 
-        mMovieTitle_tv = findViewById(R.id.movie_title_tv);
-        mPoster_tv = findViewById(R.id.poster_iv);
-        mReleaseDate_tv = findViewById(R.id.release_date_tv);
-        mVoteAverage_rb = findViewById(R.id.vote_avg);
-        mVoteAverageDesc_tv = findViewById(R.id.vote_avg_desc_tv);
-        mPlot_tv = findViewById(R.id.plot_tv);
+//        long movieId = movie.getMovieId();
+        String movieTitle = movie.getMovieTitle();
+        String posterUrl = movie.getPosterUrl();
+        String releaseDate = movie.getReleaseDate();
+        float voteAverage = movie.getVoteAverage();
+        String plot = movie.getPlot();
+
+//        mMovieTitle_tv = findViewById(R.id.movie_title_tv);
+//        mPoster_tv = findViewById(R.id.poster_iv);
+//        mReleaseDate_tv = findViewById(R.id.release_date_tv);
+//        mVoteAverage_rb = findViewById(R.id.vote_avg);
+//        mVoteAverageDesc_tv = findViewById(R.id.vote_avg_desc_tv);
+//        mPlot_tv = findViewById(R.id.plot_tv);
 
         DisplayData(movieTitle, posterUrl, releaseDate, voteAverage, plot);
     }

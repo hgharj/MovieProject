@@ -16,44 +16,53 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Movie>>,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+SharedPreferences.OnSharedPreferenceChangeListener{
     private static final int MOVIE_LOADER_ID = 100;
     private MovieListAdapter mAdapter;
 
-    private RecyclerView mMovieRecyclerView;
-    private TextView mEmptyStateTextView;
-    private ProgressBar mProgressBar;
+    @BindView(R.id.movie_recycler_view) RecyclerView mMovieRecyclerView;
+    @BindView(R.id.empty_view) TextView mEmptyStateTextView;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+
+    @BindView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
+    private static final String SEARCH_POPULAR="popular";
+    private static final String KEY_STRING="api_key";
+    private static final String KEY_SORT="sort_by";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
+        ButterKnife.bind(this);
+
+//        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
 
-        mProgressBar = findViewById(R.id.loading_spinner);
-        mEmptyStateTextView = findViewById(R.id.empty_view);
+//        mEmptyStateTextView = findViewById(R.id.empty_view);
 
-        mMovieRecyclerView = findViewById(R.id.movie_recycler_view);
+//        mMovieRecyclerView = findViewById(R.id.movie_recycler_view);
 
         loadScreen();
     }
@@ -67,13 +76,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(Movie movie) {
                 Intent detailIntent = new Intent(context, DetailActivity.class);
-                detailIntent.putExtra(Movie.MOVIE_ID, movie.getMovieId());
-                detailIntent.putExtra(Movie.MOVIE_TITLE, movie.getMovieTitle());
-                detailIntent.putExtra(Movie.POSTER_URL, movie.getPosterUrl());
-                detailIntent.putExtra(Movie.RELEASE_DATE, movie.getReleaseDate());
-                detailIntent.putExtra(Movie.VOTE_AVERAGE, movie.getVoteAverage());
-                detailIntent.putExtra(Movie.PLOT, movie.getPlot());
-
+                detailIntent.putExtra("Movie",movie);
                 startActivity(detailIntent);
             }
         });
@@ -99,8 +102,6 @@ public class MainActivity extends AppCompatActivity
             });
         } else {
             // Otherwise, display error
-            // First, hide loading indicator so error message will be visible
-            mProgressBar.setVisibility(View.GONE);
             // Update empty state with no connection error message
             mMovieRecyclerView.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_internet);
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         String endPointTopRated = getString(R.string.endpoint_top_rated);
         String endPointPopular = getString(R.string.endpoint_popular);
 
-        String apiKey = getString(R.string.api_key);
+        String apiKey = BuildConfig.ApiKey;
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity
                 getString(R.string.settings_order_by_default)
         );
 
-        if (orderBy.contains("popular")) {
+        if (orderBy.contains(SEARCH_POPULAR)) {
             movieUrl += endPointPopular;
         } else {
             movieUrl += endPointTopRated;
@@ -142,8 +143,8 @@ public class MainActivity extends AppCompatActivity
         Uri baseUri = Uri.parse(movieUrl);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("api_key", apiKey);
-        uriBuilder.appendQueryParameter("sort_by", orderBy);
+        uriBuilder.appendQueryParameter(KEY_STRING, apiKey);
+        uriBuilder.appendQueryParameter(KEY_SORT, orderBy);
 
         // Create a new loader for the given URL
         return new MovieLoader(this, uriBuilder.toString());
@@ -159,7 +160,6 @@ public class MainActivity extends AppCompatActivity
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
             mAdapter.addAll(movies);
-            mProgressBar.setVisibility(View.GONE);
             mEmptyStateTextView.setVisibility(View.GONE);
         } else {
             mEmptyStateTextView.setText(R.string.no_movies);
@@ -221,13 +221,29 @@ public class MainActivity extends AppCompatActivity
             loadScreen();
         } else {
             // Otherwise, display error
-            // First, hide loading indicator so error message will be visible
-            mProgressBar.setVisibility(View.GONE);
             // Update empty state with no connection error message
             mEmptyStateTextView.setVisibility(View.VISIBLE);
             mEmptyStateTextView.setText(R.string.no_internet);
             mSwipeRefreshLayout.setRefreshing(false);
             mMovieRecyclerView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 }

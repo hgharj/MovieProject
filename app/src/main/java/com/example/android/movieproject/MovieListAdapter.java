@@ -10,6 +10,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by jcgray on 8/5/18.
  */
@@ -53,11 +56,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     }
 
     static class MovieViewHolder extends RecyclerView.ViewHolder{
-        private ImageView movieImg;
+        @BindView(R.id.movie_list_item_image) ImageView movieImg;
 
         public MovieViewHolder(View v){
             super(v);
-            movieImg = v.findViewById(R.id.movie_list_item_image);
+            ButterKnife.bind(this, v);
         }
         
         public void bind(final Movie movie, final OnItemClickListener listener){

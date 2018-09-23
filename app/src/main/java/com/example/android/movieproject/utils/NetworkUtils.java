@@ -19,9 +19,37 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class NetworkUtils {
+public final class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
+    private static final String POSTER_SIZE = "w342/";
+    private static final String RESULTS_ARRAY = "results";
+    private static final String MOVIE_ID = "id";
+    private static final String VOTE_AVERAGE = "vote_average";
+    private static final String TITLE = "title";
+    private static final String POSTER_PATH = "poster_path";
+    private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
+    private static final String RELEASE_DATE = "release_date";
+    private static final String OVERVIEW = "overview";
+    private static final String FETCH_MOVIE_DATA_ERROR_MSG = "Error closing input stream: ";
+    private static final String EXTRACT_MOVIES_ERROR_MSG = "Problem parsing the movie JSON results: ";
+    private static final String CREATE_URL_ERROR_MSG = "Error with creating URL: ";
+    private static final String GET = "GET";
+    private static final String ERROR_RESPONSE_CODE = "Error response code: ";
+    private static final String MAKE_HTTP_REQUEST_ERROR_MSG = "Problem retrieving the movie JSON results.";
+    private static final String UTF8 = "UTF-8";
+    private static final String REQUEST_URL = "Request URL ... ";
+    private static final String RESPONSE_CODE = "Response Code ... ";
+    private static final String LOCATION = "Location";
+    private static final String SET_COOKIE = "Set-Cookie";
+    private static final String COOKIE = "Cookie";
+    private static final String ACCEPT_LANGUAGE = "Accept-Language";
+    private static final String ACCEPT_LANGUAGE_2 = "en-US,en;q=0.8";
+    private static final String USER_AGENT = "User-Agent";
+    private static final String USER_AGENT_2 = "Mozilla";
+    private static final String REFERRER = "Referrer";
+    private static final String REFERRER_2 = "google.com";
+    private static final String REDIRECT_URL = "Redirect to URL : ";
 
     /**
      * This class is only meant to hold static variables and methods, which can be accessed
@@ -35,8 +63,6 @@ public class NetworkUtils {
      */
     public static ArrayList<Movie> fetchMovieData(String requestUrl) {
         // Create URL object
-//        URL url = createUrl(requestUrl);
-
         HttpRedirect hr = new HttpRedirect();
         URL url = hr.main(createUrl(requestUrl));
 
@@ -45,14 +71,11 @@ public class NetworkUtils {
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error closing input stream", e);
+            Log.e(LOG_TAG, FETCH_MOVIE_DATA_ERROR_MSG, e);
         }
 
-        // Extract relevant fields from the JSON response and create an {@link Event} object
-        ArrayList<Movie> movie = extractMovies(jsonResponse);
-
-        // Return the {@link Event}
-        return movie;
+        // Extract relevant fields from the JSON response, create an return {@link Event} object
+        return extractMovies(jsonResponse);
     }
 
     /**
@@ -74,19 +97,17 @@ public class NetworkUtils {
         try {
 
             JSONObject reader = new JSONObject(movieJSON);
-            JSONArray results = reader.getJSONArray("results");
+            JSONArray results = reader.getJSONArray(RESULTS_ARRAY);
             for (int i = 0; i < results.length(); i++) {
                 JSONObject currentMovie = results.getJSONObject(i);
-                int movieId = currentMovie.getInt("id");
-                String voteAvgDouble = currentMovie.getString("vote_average");
+                int movieId = currentMovie.getInt(MOVIE_ID);
+                String voteAvgDouble = currentMovie.getString(VOTE_AVERAGE);
                 float voteAvg = Float.parseFloat(voteAvgDouble);
-                String title = currentMovie.getString("title");
-                String posterPathExtension = currentMovie.getString("poster_path");
-                String posterBaseUrl = "http://image.tmdb.org/t/p/";
-                String posterSize = "w342/";
-                String poster = posterBaseUrl + posterSize + posterPathExtension;
-                String releaseDate = currentMovie.getString("release_date");
-                String plot = currentMovie.getString("overview");
+                String title = currentMovie.getString(TITLE);
+                String posterPathExtension = currentMovie.getString(POSTER_PATH);
+                String poster = POSTER_BASE_URL + POSTER_SIZE + posterPathExtension;
+                String releaseDate = currentMovie.getString(RELEASE_DATE);
+                String plot = currentMovie.getString(OVERVIEW);
                 Movie movie = new Movie(movieId, title, poster, releaseDate, voteAvg, plot);
                 movies.add(movie);
 
@@ -96,7 +117,7 @@ public class NetworkUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("NetworkUtils", "Problem parsing the movie JSON results", e);
+            Log.e(LOG_TAG, EXTRACT_MOVIES_ERROR_MSG, e);
         }
 
         // Return the list of movies
@@ -111,7 +132,7 @@ public class NetworkUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error with creating URL ", e);
+            Log.e(LOG_TAG, CREATE_URL_ERROR_MSG, e);
         }
         return url;
     }
@@ -136,7 +157,7 @@ public class NetworkUtils {
             HttpURLConnection.setFollowRedirects(true);
             urlConnection.setReadTimeout(10000); /* milliseconds */
             urlConnection.setConnectTimeout(15000); /* milliseconds */
-            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestMethod(GET);
 
             urlConnection.connect();
 
@@ -146,10 +167,10 @@ public class NetworkUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e(LOG_TAG, ERROR_RESPONSE_CODE + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the movie JSON results.", e);
+            Log.e(LOG_TAG, MAKE_HTTP_REQUEST_ERROR_MSG, e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -168,7 +189,7 @@ public class NetworkUtils {
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName(UTF8));
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
             while (line != null) {
@@ -189,7 +210,7 @@ public class NetworkUtils {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
 
-                System.out.println("Request URL ... " + url);
+                System.out.println(REQUEST_URL + url);
 
                 boolean redirect = false;
 
@@ -203,25 +224,24 @@ public class NetworkUtils {
                     outURL = null;
                 }
 
-                System.out.println("Response Code ... " + status);
-
+                System.out.println(RESPONSE_CODE + status);
 
                 if (redirect) {
 
                     // get redirect url from "location" header field
-                    newUrl = conn.getHeaderField("Location");
+                    newUrl = conn.getHeaderField(LOCATION);
 
                     // get the cookie if need, for login
-                    String cookies = conn.getHeaderField("Set-Cookie");
+                    String cookies = conn.getHeaderField(SET_COOKIE);
 
                     // open the new connection again
                     conn = (HttpURLConnection) new URL(newUrl).openConnection();
-                    conn.setRequestProperty("Cookie", cookies);
-                    conn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
-                    conn.addRequestProperty("User-Agent", "Mozilla");
-                    conn.addRequestProperty("Referrer", "google.com");
+                    conn.setRequestProperty(COOKIE, cookies);
+                    conn.addRequestProperty(ACCEPT_LANGUAGE, ACCEPT_LANGUAGE_2);
+                    conn.addRequestProperty(USER_AGENT, USER_AGENT_2);
+                    conn.addRequestProperty(REFERRER, REFERRER_2);
 
-                    System.out.println("Redirect to URL : " + newUrl);
+                    System.out.println(REDIRECT_URL + newUrl);
 
                     outURL = createUrl(newUrl);
                 }
