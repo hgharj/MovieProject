@@ -26,3 +26,7 @@ Your app will:
  
  Details
  ![image](https://user-images.githubusercontent.com/20193534/45930685-3fd49800-bf31-11e8-8195-6fdefdbe2260.png)
+
+### API KEY
+Sign up for MovieDB and generate an API key. You may place it in your gradle.properties file.
+Learn how to apply your api key [here](https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906).
