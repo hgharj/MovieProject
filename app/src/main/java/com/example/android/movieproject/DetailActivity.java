@@ -39,13 +39,6 @@ public class DetailActivity extends AppCompatActivity {
         float voteAverage = movie.getVoteAverage();
         String plot = movie.getPlot();
 
-//        mMovieTitle_tv = findViewById(R.id.movie_title_tv);
-//        mPoster_tv = findViewById(R.id.poster_iv);
-//        mReleaseDate_tv = findViewById(R.id.release_date_tv);
-//        mVoteAverage_rb = findViewById(R.id.vote_avg);
-//        mVoteAverageDesc_tv = findViewById(R.id.vote_avg_desc_tv);
-//        mPlot_tv = findViewById(R.id.plot_tv);
-
         DisplayData(movieTitle, posterUrl, releaseDate, voteAverage, plot);
     }
 

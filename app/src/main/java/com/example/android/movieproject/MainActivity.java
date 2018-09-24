@@ -39,8 +39,6 @@ SharedPreferences.OnSharedPreferenceChangeListener{
     @BindView(R.id.movie_recycler_view) RecyclerView mMovieRecyclerView;
     @BindView(R.id.empty_view) TextView mEmptyStateTextView;
 
-
-
     @BindView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
     private static final String SEARCH_POPULAR="popular";
     private static final String KEY_STRING="api_key";
