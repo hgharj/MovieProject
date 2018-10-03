@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.android.movieproject.utils.MovieModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,16 +20,16 @@ import butterknife.ButterKnife;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>{
 
-    private final List<Movie> movies;
+    private final List<MovieModel> movies;
     private final OnItemClickListener listener;
 
-    public MovieListAdapter(List<Movie> movies, OnItemClickListener listener){
+    public MovieListAdapter(List<MovieModel> movies, OnItemClickListener listener){
         this.movies=movies;
         this.listener=listener;
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Movie movie);
+        void onItemClick(MovieModel movie);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
        movies.clear();
     }
 
-    public void addAll(List<Movie> movies){
+    public void addAll(List<MovieModel> movies){
         this.movies.addAll(movies);
     }
 
@@ -63,7 +64,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             ButterKnife.bind(this, v);
         }
         
-        public void bind(final Movie movie, final OnItemClickListener listener){
+        public void bind(final MovieModel movie, final OnItemClickListener listener){
             Picasso.with(itemView.getContext()).load(movie.getPosterUrl())
                     .placeholder(R.drawable.imageunavailabe)
                     .error(R.drawable.imageunavailabe)

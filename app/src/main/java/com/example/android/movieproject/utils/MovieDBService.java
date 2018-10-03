@@ -2,7 +2,7 @@ package com.example.android.movieproject.utils;
 
 import com.example.android.movieproject.BuildConfig;
 
-import java.io.IOException;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -12,10 +12,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MovieDBService {
-    public MovieResponse getMovieResponse(String sortBy) {
+    public List<MovieModel> getMovieResponse(String sortBy,String apiKey) {
 
-        String apiKey = BuildConfig.ApiKey;
-        MovieResponse movie = null;
+        MovieModel movie = null;
+
+        List<MovieModel> movies = null;
+        MovieResponse response = null;
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit retrofit = new Retrofit.Builder()
@@ -25,10 +27,10 @@ public class MovieDBService {
                 .build();
 
 //        MovieDbAPI MovieDbAPI = retrofit.create(MovieDbAPI.class);
-//        Call<MovieResponse> callSync = MovieDbAPI.getTopRatedMovies(sortBy,apiKey);
+//        Call<MovieModel> callSync = MovieDbAPI.getTopRatedMovies(sortBy,apiKey);
 
 //        try {
-//            Response<MovieResponse> response = callSync.execute();
+//            Response<MovieModel> response = callSync.execute();
 //            movie = response.body();
 //        } catch (IOException e) {
 //            e.printStackTrace();
@@ -38,7 +40,7 @@ public class MovieDBService {
         Call<MovieResponse> callAsync;
         if (sortBy.contains("popular")) {
             callAsync = movieDbAPI.getMostPopularMovies(sortBy,apiKey);
-        } else if (sortBy.contains("top_rated")) {
+        } else if (sortBy.contains("vote_average")) {
             callAsync = movieDbAPI.getTopRatedMovies(sortBy,apiKey);
         } else {
             callAsync = movieDbAPI.getMovie(sortBy,apiKey);
@@ -48,7 +50,9 @@ public class MovieDBService {
         callAsync.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                MovieResponse movie = response.body();
+                MovieResponse movieResponse = response.body();
+//                List<MovieModel> movies = movieResponse.getItems();
+
             }
 
             @Override
@@ -57,6 +61,6 @@ public class MovieDBService {
             }
         });
 
-        return movie;
+        return movies;
     }
 }

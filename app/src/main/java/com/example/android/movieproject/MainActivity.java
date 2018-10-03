@@ -23,6 +23,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.android.movieproject.utils.MovieDBService;
+import com.example.android.movieproject.utils.MovieModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Movie>>,
+        implements LoaderManager.LoaderCallbacks<List<MovieModel>>,
         SwipeRefreshLayout.OnRefreshListener,
 SharedPreferences.OnSharedPreferenceChangeListener{
     private static final int MOVIE_LOADER_ID = 100;
@@ -67,15 +70,15 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 
     private void loadScreen(){
         final Context context = this;
-        ArrayList movies = new ArrayList<Movie>();
+        ArrayList movies = new ArrayList<MovieModel>();
 
         mAdapter = new MovieListAdapter(movies, new MovieListAdapter.OnItemClickListener() {
             //Pass movie data into the intent so that the detail screen can access it.
             @Override
-            public void onItemClick(Movie movie) {
+            public void onItemClick(MovieModel movie) {
                 Intent detailIntent = new Intent(context, DetailActivity.class);
-                detailIntent.putExtra("Movie",movie);
-                startActivity(detailIntent);
+//                detailIntent.putExtra("Movie",movie);
+//                startActivity(detailIntent);
             }
         });
 
@@ -117,7 +120,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
     }
 
     @Override
-    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<MovieModel>> onCreateLoader(int id, Bundle args) {
 
         String movieUrl = getString(R.string.movie_url);
         String endPointTopRated = getString(R.string.endpoint_top_rated);
@@ -138,18 +141,18 @@ SharedPreferences.OnSharedPreferenceChangeListener{
             movieUrl += endPointTopRated;
         }
 
-        Uri baseUri = Uri.parse(movieUrl);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-
-        uriBuilder.appendQueryParameter(KEY_STRING, apiKey);
-        uriBuilder.appendQueryParameter(KEY_SORT, orderBy);
+//        Uri baseUri = Uri.parse(movieUrl);
+//        Uri.Builder uriBuilder = baseUri.buildUpon();
+//
+//        uriBuilder.appendQueryParameter(KEY_STRING, apiKey);
+//        uriBuilder.appendQueryParameter(KEY_SORT, orderBy);
 
         // Create a new loader for the given URL
-        return new MovieLoader(this, uriBuilder.toString());
+        return new MovieLoader(this, orderBy, apiKey);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Movie>> loader, final List<Movie> movies) {
+    public void onLoadFinished(Loader<List<MovieModel>> loader, final List<MovieModel> movies) {
         // Clear the adapter of previous movie data
         if (mAdapter != null)
             mAdapter.clear();
@@ -190,7 +193,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Movie>> movies) {
+    public void onLoaderReset(Loader<List<MovieModel>> movies) {
         mAdapter.clear();
     }
 
