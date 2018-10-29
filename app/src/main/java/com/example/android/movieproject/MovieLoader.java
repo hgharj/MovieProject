@@ -3,6 +3,7 @@ package com.example.android.movieproject;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
+import com.example.android.movieproject.utils.Controller;
 import com.example.android.movieproject.utils.MovieDBService;
 import com.example.android.movieproject.utils.MovieModel;
 import com.example.android.movieproject.utils.MovieResponse;
@@ -52,9 +53,11 @@ class MovieLoader extends AsyncTaskLoader<List<MovieModel>> {
             return null;
         }
 
-        MovieDBService movieDBService = new MovieDBService();
+//        MovieDBService movieDBService = new MovieDBService();
+//
+//        List<MovieModel> movies = movieDBService.getMovieResponse(mSortBy,mApiKey);
+        Controller controller = new Controller();
 
-        List<MovieModel> movies = movieDBService.getMovieResponse(mSortBy,mApiKey);
-        return movies;
+        return controller.start(mSortBy,mApiKey);
     }
 }

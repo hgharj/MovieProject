@@ -126,7 +126,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
         String endPointTopRated = getString(R.string.endpoint_top_rated);
         String endPointPopular = getString(R.string.endpoint_popular);
 
-        String apiKey = BuildConfig.ApiKey;
+        String apiKey = "78f8b58674adbaa0bf92f4de4e9a6dc3";//BuildConfig.ApiKey;
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
