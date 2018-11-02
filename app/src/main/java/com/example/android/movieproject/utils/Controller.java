@@ -1,5 +1,7 @@
 package com.example.android.movieproject.utils;
 
+import android.util.Log;
+
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -11,7 +13,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Controller implements Callback<List<MovieModel>> {
+public class Controller implements Callback<MovieResponse> {
     static final String BASE_URL = "https://api.themoviedb.org/";
 private List<MovieModel> mMovieList;
     public List<MovieModel> start(String sortBy,String apiKey) {
@@ -24,36 +26,38 @@ private List<MovieModel> mMovieList;
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        MovieDbAPIList movieDbAPIList = retrofit.create(MovieDbAPIList.class);
+        MovieDbAPI movieDbAPI = retrofit.create(MovieDbAPI.class);
 
-        Call<List<MovieModel>> call;
+        Call<MovieResponse> call;
         if (sortBy.contains("popular")) {
-            call = movieDbAPIList.getMostPopularMovies(sortBy,apiKey);
+            call = movieDbAPI.getMostPopularMovies(sortBy,apiKey);
         } else if (sortBy.contains("vote_average")) {
-            call = movieDbAPIList.getTopRatedMovies(sortBy,apiKey);
+            call = movieDbAPI.getTopRatedMovies(sortBy,apiKey);
         } else {
-            call = movieDbAPIList.getMovie(sortBy,apiKey);
+            call = movieDbAPI.getMovie(sortBy,apiKey);
         }
         call.enqueue(this);
         return mMovieList;
     }
 
     @Override
-    public void onResponse(Call<List<MovieModel>> call, Response<List<MovieModel>> response) {
+    public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
         if(response.isSuccessful()) {
-            List<MovieModel> changesList = response.body();
-            mMovieList=changesList;
-            for (MovieModel change : changesList) {
-                System.out.println(change.getTitle());
-
-            }
+            MovieResponse changesList = response.body();
+            System.out.println(changesList.toString());
+            Log.d("Controller",changesList.toString());
+            mMovieList=changesList.getMovieList();
+//            for (MovieModel change : changesList) {
+//                System.out.println(change.getTitle());
+//
+//            }
         } else {
             System.out.println(response.errorBody());
         }
     }
 
     @Override
-    public void onFailure(Call<List<MovieModel>> call, Throwable t) {
+    public void onFailure(Call<MovieResponse> call, Throwable t) {
         t.printStackTrace();
     }
 }
