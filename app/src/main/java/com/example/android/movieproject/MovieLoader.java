@@ -57,7 +57,9 @@ class MovieLoader extends AsyncTaskLoader<List<MovieModel>> {
 //
 //        List<MovieModel> movies = movieDBService.getMovieResponse(mSortBy,mApiKey);
         Controller controller = new Controller();
+        controller.start(mSortBy,mApiKey);
+        List<MovieModel> movies=controller.mMovieList;
 
-        return controller.start(mSortBy,mApiKey);
+        return movies;
     }
 }

@@ -77,8 +77,8 @@ SharedPreferences.OnSharedPreferenceChangeListener{
             @Override
             public void onItemClick(MovieModel movie) {
                 Intent detailIntent = new Intent(context, DetailActivity.class);
-//                detailIntent.putExtra("Movie",movie);
-//                startActivity(detailIntent);
+                detailIntent.putExtra("Movie",movie);
+                startActivity(detailIntent);
             }
         });
 

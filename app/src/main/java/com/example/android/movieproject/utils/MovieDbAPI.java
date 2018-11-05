@@ -11,7 +11,7 @@ public interface MovieDbAPI{
     @GET("/3/movie/top_rated")
     Call<MovieResponse> getTopRatedMovies(@Query("sort_by") String sortBy, @Query("api_key") String key);
 
-    @GET("/3/movie/most_popular")
+    @GET("/3/movie/popular")
     Call<MovieResponse> getMostPopularMovies(@Query("sort_by") String sortBy, @Query("api_key") String key);
 
     @GET("/3/movie/{id}/videos")
