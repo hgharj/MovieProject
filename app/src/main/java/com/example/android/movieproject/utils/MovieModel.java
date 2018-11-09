@@ -122,7 +122,7 @@ public class MovieModel implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(title);
-        dest.writeString(posterPath);
+        dest.writeString(POSTER_BASE_URL + POSTER_SIZE + posterPath);
         dest.writeString(releaseDate);
         dest.writeFloat(voteAverage);
         dest.writeString(overview);
