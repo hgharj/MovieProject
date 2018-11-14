@@ -8,6 +8,10 @@
 
     <string name="no_movies">No movies found.</string>
     <string name="no_internet">No internet connection.</string>
+    <string name="no_trailers">No trailers found.</string>
+    <string name="no_reviews">No reviews yet.</string>
+    <string name="trailer_label">Trailers</string>
+    <string name="review_label">User Reviews</string>
     <string name="release_date_default">Coming Soon.</string>
     <string name="plot_default">No synopsis available.</string>
     <string name="vote_avg_label">Vote Average </string>
@@ -15,6 +19,7 @@
     <string name="plot_label">Plot </string>
 
     <string name="movie_url" translatable="false">https://api.themoviedb.org/3/movie/</string>
+    <string name="trailer_url">https://www.youtube.com/watch?v="key"</string>
     <string name="endpoint_top_rated" translatable="false">top_rated?</string>
     <string name="endpoint_popular" translatable="false">popular?</string>
 

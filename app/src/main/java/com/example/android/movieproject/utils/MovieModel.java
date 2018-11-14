@@ -103,13 +103,13 @@ public class MovieModel implements Parcelable{
     //creator - used when un-parceling our parcel (creating the object)
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
         @Override
-        public Movie createFromParcel(Parcel parcel) {
-            return new Movie(parcel);
+        public MovieModel createFromParcel(Parcel parcel) {
+            return new MovieModel(parcel);
         }
 
         @Override
-        public Movie[] newArray(int i) {
-            return new Movie[0];
+        public MovieModel[] newArray(int i) {
+            return new MovieModel[0];
         }
     };
 
