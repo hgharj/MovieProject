@@ -15,10 +15,10 @@ public interface MovieDbAPI{
     Call<MovieResponse> getMostPopularMovies(@Query("sort_by") String sortBy, @Query("api_key") String key);
 
     @GET("/3/movie/{id}/videos")
-    Call<MovieResponse> getRelatedVideos(@Path("id") String id, @Query("api_key") String key);
+    Call<TrailerResponse> getRelatedVideos(@Path("id") Long id, @Query("api_key") String key);
 
     @GET("/3/movie/{id}/reviews")
-    Call<MovieResponse> getUserReviews(@Path("id") String id, @Query("api_key") String key);
+    Call<UserReviewResponse> getUserReviews(@Path("id") Long id, @Query("api_key") String key);
 
     @GET("/3/movie/{id}")
     Call<MovieResponse> getMovie(@Path("id") String id, @Query("api_key") String key);

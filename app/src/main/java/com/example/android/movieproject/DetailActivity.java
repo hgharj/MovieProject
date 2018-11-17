@@ -1,5 +1,6 @@
 package com.example.android.movieproject;
 
+import android.content.AsyncTaskLoader;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.android.movieproject.utils.Controller;
+import com.example.android.movieproject.utils.MovieModel;
+import com.example.android.movieproject.utils.TrailerModel;
+import com.example.android.movieproject.utils.UserReviewModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,19 +37,21 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.detail_activity);
         ButterKnife.bind(this);
         Intent data = getIntent();
-        Movie movie = data.getParcelableExtra("Movie");
+        MovieModel movie = data.getParcelableExtra("Movie");
 
-//        long movieId = movie.getMovieId();
-        String movieTitle = movie.getMovieTitle();
+        long movieId = movie.getId();
+        String movieTitle = movie.getTitle();
         String posterUrl = movie.getPosterUrl();
         String releaseDate = movie.getReleaseDate();
         float voteAverage = movie.getVoteAverage();
-        String plot = movie.getPlot();
+        String plot = movie.getOverview();
 
-        DisplayData(movieTitle, posterUrl, releaseDate, voteAverage, plot);
+        DisplayData(movieId, movieTitle, posterUrl, releaseDate, voteAverage, plot);
     }
 
-    private void DisplayData(String title, String url, String releaseDate, float voteAverage, String plot) {
+    static AsyncTaskLoader mGetTrailers;
+    static AsyncTaskLoader mGetUserReviews;
+    private void DisplayData(final Long movieId, String title, String url, String releaseDate, float voteAverage, String plot) {
         try {
             mMovieTitle_tv.setText(title);
             Picasso.with(this).load(url)
@@ -55,6 +64,28 @@ public class DetailActivity extends AppCompatActivity {
             mVoteAverage_rb.setRating(voteAverage / 2);
             mVoteAverageDesc_tv.setText(String.valueOf(voteAverage / 2));
             mPlot_tv.setText(plot);
+
+            mGetTrailers = new AsyncTaskLoader<List<TrailerModel>>(this) {
+                @Override
+                public List<TrailerModel> loadInBackground() {
+                    String apiKey = "78f8b58674adbaa0bf92f4de4e9a6dc3";
+                    Controller controller = new Controller();
+                    return controller.getTrailers(movieId,apiKey);
+                }
+            };
+
+            mGetTrailers.forceLoad();
+
+            mGetUserReviews = new AsyncTaskLoader<List<UserReviewModel>>(this) {
+                @Override
+                public List<UserReviewModel> loadInBackground() {
+                    String apiKey = "78f8b58674adbaa0bf92f4de4e9a6dc3";
+                    Controller controller = new Controller();
+                    return controller.getReviews(movieId,apiKey);
+                }
+            };
+
+            mGetUserReviews.forceLoad();
         }
         catch (Exception e) {
             Log.v(LOG_TAG,e.toString());
