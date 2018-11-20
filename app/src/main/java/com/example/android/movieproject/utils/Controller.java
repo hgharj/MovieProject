@@ -88,7 +88,7 @@ public class Controller {
         return mTrailerList;
     }
 
-    public List<UserReviewModel> getReviews(Long id, String apiKey) {
+    public List<UserReviewModel> getUserReviews(Long id, String apiKey) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();

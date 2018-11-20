@@ -144,7 +144,10 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailer_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                />
         </LinearLayout>
 
         <TextView
@@ -176,7 +179,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/user_review_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>

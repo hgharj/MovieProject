@@ -65,7 +65,11 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
         }
         
         public void bind(final TrailerModel trailer, final OnItemClickListener listener){
-            Picasso.with(itemView.getContext()).load(trailer.getTrailerUrl())
+            String thumbnailBaseUrl = "https://img.youtube.com/vi/";
+            String thumbnailEndUrl = "/0.jpg";
+            String thumbnailUrl = thumbnailBaseUrl + trailer.getKey() + thumbnailEndUrl;
+
+            Picasso.with(itemView.getContext()).load(thumbnailUrl)
                     .placeholder(R.drawable.imageunavailabe)
                     .error(R.drawable.imageunavailabe)
                     .into(trailerImg);

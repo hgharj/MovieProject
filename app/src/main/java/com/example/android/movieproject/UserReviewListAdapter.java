@@ -58,7 +58,8 @@ public class UserReviewListAdapter extends RecyclerView.Adapter<UserReviewListAd
     }
 
     static class UserReviewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.user_review_list_item) TextView userReview_tv;
+        @BindView(R.id.user_review_author_list_item) TextView userReviewAuthor_tv;
+        @BindView(R.id.user_review_content_list_item) TextView userReviewContent_tv;
 
         public UserReviewHolder(View v){
             super(v);
@@ -66,13 +67,8 @@ public class UserReviewListAdapter extends RecyclerView.Adapter<UserReviewListAd
         }
         
         public void bind(final UserReviewModel userReview, final OnItemClickListener listener){
-            userReview_tv.setText(userReview.getContent());
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    listener.onItemClick(userReview);
-//                }
-//            });
+            userReviewContent_tv.setText(userReview.getContent());
+            userReviewAuthor_tv.setText(userReview.getAuthor());
         }
     }
 }
