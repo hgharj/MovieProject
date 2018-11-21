@@ -11,15 +11,15 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.movieproject.provider.MovieContract.MovieEntry;
+import com.example.android.movieproject.provider.TrailerContract.TrailerEntry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TrailerContentProvider extends ContentProvider {
 
-    public static final int MOVIES = 100;
-    public static final int MOVIE_WITH_ID = 101;
+    public static final int TRAILERS = 100;
+    public static final int TRAILER_WITH_ID = 101;
 
     // Declare a static variable for the Uri matcher that you construct
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -30,18 +30,18 @@ public class TrailerContentProvider extends ContentProvider {
         // Initialize a UriMatcher
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         // Add URI matches
-        uriMatcher.addURI(MovieContract.AUTHORITY, MovieContract.PATH_MOVIES, MOVIES);
-        uriMatcher.addURI(MovieContract.AUTHORITY, MovieContract.PATH_MOVIES + "/#", MOVIE_WITH_ID);
+        uriMatcher.addURI(TrailerContract.AUTHORITY, TrailerContract.PATH_TRAILERS, TRAILERS);
+        uriMatcher.addURI(TrailerContract.AUTHORITY, TrailerContract.PATH_TRAILERS + "/#", TRAILER_WITH_ID);
         return uriMatcher;
     }
 
-    // Member variable for a MovieDbHelper that's initialized in the onCreate() method
-    private MovieDbHelper mMovieDbHelper;
+    // Member variable for a TrailerDbHelper that's initialized in the onCreate() method
+    private TrailerDbHelper mTrailerDbHelper;
 
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        mMovieDbHelper = new MovieDbHelper(context);
+        mTrailerDbHelper = new TrailerDbHelper(context);
         return true;
     }
 
@@ -50,16 +50,16 @@ public class TrailerContentProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         // Get access to underlying database (read-only for query)
-        final SQLiteDatabase db = mMovieDbHelper.getReadableDatabase();
+        final SQLiteDatabase db = mTrailerDbHelper.getReadableDatabase();
 
         // Write URI match code and set a variable to return a Cursor
         int match = sUriMatcher.match(uri);
         Cursor retCursor;
 
         switch (match) {
-            // Query for the movies directory
-            case MOVIES:
-                retCursor = db.query(MovieEntry.TABLE_NAME,
+            // Query for the trailers directory
+            case TRAILERS:
+                retCursor = db.query(TrailerEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -67,9 +67,9 @@ public class TrailerContentProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
-            case MOVIE_WITH_ID:
+            case TRAILER_WITH_ID:
                 String id = uri.getPathSegments().get(1);
-                retCursor = db.query(MovieEntry.TABLE_NAME,
+                retCursor = db.query(TrailerEntry.TABLE_NAME,
                         projection,
                         "_id=?",
                         new String[]{id},
@@ -98,17 +98,17 @@ public class TrailerContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        final SQLiteDatabase db = mMovieDbHelper.getWritableDatabase();
+        final SQLiteDatabase db = mTrailerDbHelper.getWritableDatabase();
 
-        // Write URI matching code to identify the match for the movies directory
+        // Write URI matching code to identify the match for the trailers directory
         int match = sUriMatcher.match(uri);
         Uri returnUri; // URI to be returned
         switch (match) {
-            case MOVIES:
+            case TRAILERS:
                 // Insert new values into the database
-                long id = db.insert(MovieEntry.TABLE_NAME, null, contentValues);
+                long id = db.insert(TrailerEntry.TABLE_NAME, null, contentValues);
                 if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, id);
+                    returnUri = ContentUris.withAppendedId(TrailerEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -128,45 +128,45 @@ public class TrailerContentProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
         // Get access to the database and write URI matching code to recognize a single item
-        final SQLiteDatabase db = mMovieDbHelper.getWritableDatabase();
+        final SQLiteDatabase db = mTrailerDbHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
-        // Keep track of the number of deleted movies
-        int moviesDeleted; // starts as 0
+        // Keep track of the number of deleted trailers
+        int trailersDeleted; // starts as 0
         switch (match) {
             // Handle the single item case, recognized by the ID included in the URI path
-            case MOVIE_WITH_ID:
-                // Get the movie ID from the URI path
+            case TRAILER_WITH_ID:
+                // Get the trailer ID from the URI path
                 String id = uri.getPathSegments().get(1);
                 // Use selections/selectionArgs to filter for this ID
-                moviesDeleted = db.delete(MovieEntry.TABLE_NAME, "_id=?", new String[]{id});
+                trailersDeleted = db.delete(TrailerEntry.TABLE_NAME, "_id=?", new String[]{id});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
         // Notify the resolver of a change and return the number of items deleted
-        if (moviesDeleted != 0) {
-            // A movie (or more) was deleted, set notification
+        if (trailersDeleted != 0) {
+            // A trailer (or more) was deleted, set notification
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        // Return the number of movie deleted
-        return moviesDeleted;
+        // Return the number of trailer deleted
+        return trailersDeleted;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
         // Get access to underlying database
-        final SQLiteDatabase db = mMovieDbHelper.getWritableDatabase();
+        final SQLiteDatabase db = mTrailerDbHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
-        // Keep track of the number of updated movies
-        int moviesUpdated;
+        // Keep track of the number of updated trailers
+        int trailersUpdated;
 
         switch (match) {
-            case MOVIES:
-                moviesUpdated = db.update(MovieEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+            case TRAILERS:
+                trailersUpdated = db.update(TrailerEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
-            case MOVIE_WITH_ID:
-                if (selection == null) selection = MovieEntry._ID + "=?";
-                else selection += " AND " + MovieEntry._ID + "=?";
+            case TRAILER_WITH_ID:
+                if (selection == null) selection = TrailerEntry._ID + "=?";
+                else selection += " AND " + TrailerEntry._ID + "=?";
                 // Get the place ID from the URI path
                 String id = uri.getPathSegments().get(1);
                 // Append any existing selection options to the ID filter
@@ -177,7 +177,7 @@ public class TrailerContentProvider extends ContentProvider {
                     selectionArgsList.add(id);
                     selectionArgs = selectionArgsList.toArray(new String[selectionArgsList.size()]);
                 }
-                moviesUpdated = db.update(MovieEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                trailersUpdated = db.update(TrailerEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             // Default exception
             default:
@@ -185,12 +185,12 @@ public class TrailerContentProvider extends ContentProvider {
         }
 
         // Notify the resolver of a change and return the number of items updated
-        if (moviesUpdated != 0) {
+        if (trailersUpdated != 0) {
             // A place (or more) was updated, set notification
             getContext().getContentResolver().notifyChange(uri, null);
         }
         // Return the number of places deleted
-        return moviesUpdated;
+        return trailersUpdated;
     }
 }
 

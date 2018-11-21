@@ -17,7 +17,7 @@ public class UserReviewContract {
 
     public static final long INVALID_USER_REVIEW_ID = -1;
 
-    public static final class MovieEntry implements BaseColumns {
+    public static final class UserReviewEntry implements BaseColumns {
 
         // TaskEntry content URI = base content URI + path
         public static final Uri CONTENT_URI =

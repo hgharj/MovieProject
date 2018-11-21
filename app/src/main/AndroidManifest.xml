@@ -33,6 +33,14 @@
             android:name=".provider.MovieContentProvider"
             android:authorities="@string/content_authority"
             android:exported="false"/>
+        <provider
+            android:name=".provider.TrailerContentProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
+        <provider
+            android:name=".provider.UserReviewContentProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

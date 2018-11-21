@@ -24,10 +24,10 @@ public class TrailerDbHelper extends SQLiteOpenHelper {
 
         // Create a table to hold the plants data
         final String SQL_CREATE_TRAILER_TABLE = "CREATE TABLE " + TrailerEntry.TABLE_NAME + " (" +
-                TrailerEntry._ID + " STRING PRIMARY KEY," +
-                TrailerEntry.COLUMN_TRAILER_NAME + " STRING NOT NULL, " +
-                TrailerEntry.COLUMN_TRAILER_KEY + " STRING NOT NULL, " +
-                TrailerEntry.COLUMN_TRAILER_TYPE + " STRING NOT NULL)";
+                TrailerEntry._ID + " TEXT PRIMARY KEY, " +
+                TrailerEntry.COLUMN_TRAILER_NAME + " TEXT NOT NULL, " +
+                TrailerEntry.COLUMN_TRAILER_KEY + " TEXT NOT NULL, " +
+                TrailerEntry.COLUMN_TRAILER_TYPE + " TEXT NULL)";
 
         sqLiteDatabase.execSQL(SQL_CREATE_TRAILER_TABLE);
     }
