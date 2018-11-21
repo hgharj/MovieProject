@@ -34,6 +34,28 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_title_tv" />
 
+        <!--<ImageButton-->
+            <!--android:id="@+id/favorite_ib"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--tools:src="@drawable/baseline_star_white_18"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--app:layout_constraintRight_toRightOf="@id/poster_iv"-->
+            <!--app:layout_constraintTop_toTopOf="@id/poster_iv"-->
+            <!--/>-->
+        <ToggleButton
+            android:id="@+id/favorite_tb"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            tools:src="@drawable/baseline_star_white_18"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:textOn=""
+            android:textOff=""
+            android:background="@android:color/transparent"
+            app:layout_constraintRight_toRightOf="@id/poster_iv"
+            app:layout_constraintTop_toTopOf="@id/poster_iv"/>
+
         <TextView
             android:id="@+id/vote_avg_label"
             style="@style/labels"

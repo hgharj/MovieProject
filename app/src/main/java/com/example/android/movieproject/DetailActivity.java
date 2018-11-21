@@ -4,19 +4,27 @@ import android.content.ActivityNotFoundException;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.android.movieproject.utils.Controller;
 import com.example.android.movieproject.utils.MovieModel;
@@ -43,8 +51,12 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.no_trailers) TextView mNoTrailerTextView;
     @BindView(R.id.user_review_recycler_view) RecyclerView mUserReviewRecyclerView;
     @BindView(R.id.no_user_reviews) TextView mNoUserReviewTextView;
+
+    @BindView(R.id.favorite_tb) ToggleButton toggleButton;
+//    @BindView(R.id.favorite_ib) ImageButton imageButton;
     private static final String LOG_TAG = DetailActivity.class.getName();
     private long mMovieId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +72,46 @@ public class DetailActivity extends AppCompatActivity {
         float voteAverage = movie.getVoteAverage();
         String plot = movie.getOverview();
 
+        final Context context = this;
+
+//        imageButton.setImageResource(R.drawable.baseline_star_white_18);
+//        final boolean favoriteBlank = true;
+//        imageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (favoriteBlank) {
+//                    imageButton.setColorFilter(getResources().getColor(R.color.colorProgressTint));
+//                } else {
+//                    imageButton.setColorFilter(getResources().getColor(R.color.colorBlank));
+//
+//                }
+//            }
+//        });
+
+        toggleButton.setChecked(false);
+
+//        toggleButton.setBackgroundColor(getResources().getColor(R.color.colorBlank));
+//        toggleButton.setHighlightColor(getResources().getColor(R.color.colorProgressTint));
+        ColorFilter colorFilter = new ColorFilter();
+        final Drawable d = ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_star_white_18);
+//        d.setColorFilter(getResources().getColor(R.color.colorProgressTint), PorterDuff.Mode.MULTIPLY);
+
+        toggleButton.setBackgroundDrawable(ContextCompat. getDrawable(getApplicationContext(), R.drawable.baseline_star_white_18));
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    d.setColorFilter(getResources().getColor(R.color.colorProgressTint), PorterDuff.Mode.MULTIPLY);
+                    toggleButton.setBackgroundDrawable(d);
+                    Toast.makeText(context, "Added to Favorites",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    d.setColorFilter(getResources().getColor(R.color.colorBlank), PorterDuff.Mode.MULTIPLY);
+                    toggleButton.setBackgroundDrawable(d);
+                    Toast.makeText(context, "Subtracted from Favorites",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         DisplayData(mMovieId, movieTitle, posterUrl, releaseDate, voteAverage, plot);
     }
 

@@ -32,7 +32,7 @@ public class MovieModel implements Parcelable{
     @Expose
     private String overview;
 
-    private static final String POSTER_SIZE = "w342";
+    private static final String POSTER_SIZE = "w500";
     private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
 
 //    public MovieModel(Long id, String title, String posterPath,  String releaseDate, Float voteAverage, String overview) {

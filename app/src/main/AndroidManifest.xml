@@ -29,6 +29,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.movieproject.MainActivity" />
         </activity>
+        <provider
+            android:name=".provider.MovieContentProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
