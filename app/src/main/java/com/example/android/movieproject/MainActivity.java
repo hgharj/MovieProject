@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
@@ -23,7 +24,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.android.movieproject.utils.Controller;
 import com.example.android.movieproject.utils.MovieDBService;
+import com.example.android.movieproject.utils.MovieModel;
 import com.example.android.movieproject.utils.MovieModel;
 
 import java.util.ArrayList;
@@ -39,11 +42,16 @@ SharedPreferences.OnSharedPreferenceChangeListener{
     private static final int MOVIE_LOADER_ID = 100;
     private MovieListAdapter mAdapter;
 
+    private AsyncTask mGetMovies;
+    private Context context;
+    
     @BindView(R.id.movie_recycler_view) RecyclerView mMovieRecyclerView;
     @BindView(R.id.empty_view) TextView mEmptyStateTextView;
 
     @BindView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
     private static final String SEARCH_POPULAR="popular";
+    private static final String SEARCH_HIGHEST_RATED="vote";
+    private static final String SEARCH_FAVORITES="favorite";
     private static final String KEY_STRING="api_key";
     private static final String KEY_SORT="sort_by";
 
@@ -60,7 +68,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
-
+        context=this;
 //        mEmptyStateTextView = findViewById(R.id.empty_view);
 
 //        mMovieRecyclerView = findViewById(R.id.movie_recycler_view);
@@ -119,6 +127,64 @@ SharedPreferences.OnSharedPreferenceChangeListener{
         return connMgr.getActiveNetworkInfo();
     }
 
+    private class getMoviesTask extends AsyncTask<Void, Void, List<MovieModel>>{
+
+        @Override
+        protected void onPostExecute(List<MovieModel> movies) {
+            super.onPostExecute(movies);
+
+            // Clear the adapter of previous movie data
+            if (mAdapter != null)
+                mAdapter.clear();
+
+            // If there is a valid list of {@link Movie}s, then add them to the adapter's
+            // data set. This will trigger the ListView to update.
+            if (movies != null && !movies.isEmpty()) {
+                mAdapter.addAll(movies);
+                mEmptyStateTextView.setVisibility(View.GONE);
+            } else {
+                mEmptyStateTextView.setText(R.string.no_movies);
+                mEmptyStateTextView.setVisibility(View.VISIBLE);
+            }
+
+            mMovieRecyclerView.setAdapter(mAdapter);
+        }
+
+        @Override
+        protected List<MovieModel> doInBackground(Void... voids) {
+            String movieUrl = getString(R.string.movie_url);
+            String endPointTopRated = getString(R.string.endpoint_top_rated);
+            String endPointPopular = getString(R.string.endpoint_popular);
+
+            String apiKey = "78f8b58674adbaa0bf92f4de4e9a6dc3";//BuildConfig.ApiKey;
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            String orderBy = sharedPrefs.getString(
+                    getString(R.string.settings_order_by_key),
+                    getString(R.string.settings_order_by_default)
+            );
+
+            Controller controller = new Controller();
+
+//            if (orderBy.contains(SEARCH_POPULAR)) {
+//                movieUrl += endPointPopular;
+//                controller.getMovieList(orderBy,apiKey);
+//            } else if(orderBy.contains(SEARCH_HIGHEST_RATED)) {
+//                movieUrl += endPointTopRated;
+//            } else {
+//                return controller.getFavoriteMovies(orderBy,apiKey);
+//            }
+
+            if (orderBy.contains(SEARCH_POPULAR) || orderBy.contains(SEARCH_HIGHEST_RATED)){
+                return controller.getMovieList(orderBy,apiKey);
+            } else {
+                return controller.getFavoriteMovies(orderBy,apiKey);
+            }
+
+        }
+    }
+
     @Override
     public Loader<List<MovieModel>> onCreateLoader(int id, Bundle args) {
 
@@ -137,8 +203,10 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 
         if (orderBy.contains(SEARCH_POPULAR)) {
             movieUrl += endPointPopular;
-        } else {
+        } else if(orderBy.contains(SEARCH_HIGHEST_RATED)) {
             movieUrl += endPointTopRated;
+        } else {
+            
         }
 
 //        Uri baseUri = Uri.parse(movieUrl);

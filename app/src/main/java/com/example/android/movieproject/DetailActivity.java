@@ -2,6 +2,7 @@ package com.example.android.movieproject;
 
 import android.content.ActivityNotFoundException;
 import android.content.AsyncTaskLoader;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.ColorFilter;
@@ -12,6 +13,11 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.content.ContentUris;
+import android.database.Cursor;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +36,8 @@ import com.example.android.movieproject.utils.Controller;
 import com.example.android.movieproject.utils.MovieModel;
 import com.example.android.movieproject.utils.TrailerModel;
 import com.example.android.movieproject.utils.UserReviewModel;
+import com.example.android.movieproject.provider.MovieContract;
+import com.example.android.movieproject.utils.MovieUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,7 +46,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity {
+import static com.example.android.movieproject.provider.MovieContract.MovieEntry;
+import static com.example.android.movieproject.provider.MovieContract.BASE_CONTENT_URI;
+import static com.example.android.movieproject.provider.MovieContract.PATH_MOVIES;
+
+public class DetailActivity extends AppCompatActivity
+//        implements LoaderManager.LoaderCallbacks<Cursor>
+{
 //    private static final int INVALID_MOVIE_ID = -1;
     @BindView(R.id.movie_title_tv) TextView mMovieTitle_tv;
     @BindView(R.id.poster_iv) ImageView mPoster_tv;
@@ -56,6 +70,11 @@ public class DetailActivity extends AppCompatActivity {
 //    @BindView(R.id.favorite_ib) ImageButton imageButton;
     private static final String LOG_TAG = DetailActivity.class.getName();
     private long mMovieId;
+    private String mMovieTitle;
+    private String mPosterUrl;
+    private String mReleaseDate;
+    private float mVoteAverage;
+    private String mPlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +85,11 @@ public class DetailActivity extends AppCompatActivity {
         MovieModel movie = data.getParcelableExtra("Movie");
 
         mMovieId = movie.getId();
-        String movieTitle = movie.getTitle();
-        String posterUrl = movie.getPosterUrl();
-        String releaseDate = movie.getReleaseDate();
-        float voteAverage = movie.getVoteAverage();
-        String plot = movie.getOverview();
+        mMovieTitle = movie.getTitle();
+        mPosterUrl = movie.getPosterUrl();
+        mReleaseDate = movie.getReleaseDate();
+        mVoteAverage = movie.getVoteAverage();
+        mPlot = movie.getOverview();
 
         final Context context = this;
 
@@ -103,20 +122,22 @@ public class DetailActivity extends AppCompatActivity {
                 if (isChecked){
                     d.setColorFilter(getResources().getColor(R.color.colorProgressTint), PorterDuff.Mode.MULTIPLY);
                     toggleButton.setBackgroundDrawable(d);
+                    insertMovie();
                     Toast.makeText(context, "Added to Favorites",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     d.setColorFilter(getResources().getColor(R.color.colorBlank), PorterDuff.Mode.MULTIPLY);
                     toggleButton.setBackgroundDrawable(d);
+                    deleteMovie();
                     Toast.makeText(context, "Subtracted from Favorites",Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        DisplayData(mMovieId, movieTitle, posterUrl, releaseDate, voteAverage, plot);
+        DisplayData(mMovieId, mMovieTitle, mPosterUrl, mReleaseDate, mVoteAverage, mPlot);
     }
 
     private AsyncTask mGetTrailers;
-    static AsyncTask mGetUserReviews;
+    private AsyncTask mGetUserReviews;
     private TrailerListAdapter mTrailerAdapter;
     private UserReviewListAdapter mUserReviewAdapter;
     public List<TrailerModel> mTrailerList;
@@ -274,5 +295,85 @@ public class DetailActivity extends AppCompatActivity {
             Controller controller = new Controller();
             return controller.getUserReviews(mMovieId,apiKey);
         }
+    }
+
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        Uri SINGLE_MOVIE_URI = ContentUris.withAppendedId(
+//                BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build(), mMovieId);
+//        return new CursorLoader(this, SINGLE_MOVIE_URI, null,
+//                null, null, null);
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+//        if (cursor == null || cursor.getCount() < 1) return;
+//        cursor.moveToFirst();
+//        int movieTitleIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE);
+//        int moviePosterIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
+//        int releaseDateIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
+//        int voteAverageIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
+//        int plotIndex = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW);
+//
+//        String movieTitle = cursor.getString(movieTitleIndex);
+//        String movieImgRes = cursor.getString(moviePosterIndex);
+//        String releaseDate = cursor.getString(releaseDateIndex);
+//        float voteAverage = cursor.getFloat(voteAverageIndex);
+//        String plot = cursor.getString(plotIndex);
+//
+//        ImageView imgPoster = findViewById(R.id.poster_iv);
+//        Picasso.with(this).load(movieImgRes)
+//                .placeholder(R.drawable.imageunavailabe)
+//                .error(R.drawable.imageunavailabe)
+//                .into(imgPoster);
+//
+//        ((TextView) findViewById(R.id.movie_title_tv)).setText(String.valueOf(mMovieId));
+//        ((TextView) findViewById(R.id.release_date_tv)).setText(MovieUtils.convertYYYY_MM_DD_MiddleEndian(releaseDate));
+//
+//        ((RatingBar) findViewById(R.id.vote_avg)).setRating(Float.valueOf(voteAverage));
+//
+//        ((TextView) findViewById(R.id.plot_tv)).setText(plot);
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//
+//    }
+
+    public void insertMovie() {
+// Gets the data repository in write mode
+//        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+// Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(MovieEntry.COLUMN_MOVIE_TITLE, mMovieTitle);
+        values.put(MovieEntry.COLUMN_MOVIE_POSTER, mPosterUrl);
+        values.put(MovieEntry.COLUMN_RELEASE_DATE, mReleaseDate);
+        values.put(MovieEntry.COLUMN_VOTE_AVERAGE, mVoteAverage);
+        values.put(MovieEntry.COLUMN_OVERVIEW, mPlot);
+
+        // Insert a new row for Toto into the provider using the ContentResolver.
+        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
+        // into the pets database table.
+        // Receive the new content URI that will allow us to access Toto's data in the future.
+        Uri newUri = getContentResolver().insert(MovieEntry.CONTENT_URI, values);
+
+//        displayDatabaseInfo();
+    }
+
+    private void deleteMovie() {
+        // Only perform the delete if this is an existing pet.
+//        if (mCurrentPetUri != null) {
+        // Call the ContentResolver to delete the pet at the given content URI.
+        // Pass in null for the selection and selection args because the mCurrentPetUri
+        // content URI already identifies the pet that we want.
+        int rowsDeleted = getContentResolver().delete(MovieEntry.CONTENT_URI, null, null);
+
+        if (rowsDeleted > 0){
+            Toast.makeText(this,R.string.delete_favorite_movie_successful,Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this,R.string.delete_favorite_movie_failed,Toast.LENGTH_SHORT).show();
+        }
+//        }
     }
 }
