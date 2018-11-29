@@ -35,14 +35,14 @@ public class MovieModel implements Parcelable{
     private static final String POSTER_SIZE = "w500";
     private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
 
-//    public MovieModel(Long id, String title, String posterPath,  String releaseDate, Float voteAverage, String overview) {
-//        this.posterPath = POSTER_BASE_URL + POSTER_SIZE + posterPath;
-//        this.releaseDate = releaseDate;
-//        this.id = id;
-//        this.title = title;
-//        this.voteAverage = voteAverage;
-//        this.overview = overview;
-//    }
+    public MovieModel(Long id, String title, String posterPath,  String releaseDate, Float voteAverage, String overview) {
+        this.posterPath = POSTER_BASE_URL + POSTER_SIZE + posterPath;
+        this.releaseDate = releaseDate;
+        this.id = id;
+        this.title = title;
+        this.voteAverage = voteAverage;
+        this.overview = overview;
+    }
     public Long getId() {
         return id;
     }
