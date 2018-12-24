@@ -13,7 +13,7 @@ public class TrailerContract {
 
     // Define the possible paths for accessing data in this contract
     // This is the path for the "trailers" directory
-    public static final String PATH_TRAILERS = "trailer";
+    public static final String PATH_TRAILERS = "trailers";
 
     public static final String INVALID_TRAILER_ID = "";
 

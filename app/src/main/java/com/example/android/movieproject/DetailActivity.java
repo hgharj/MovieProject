@@ -367,7 +367,9 @@ public class DetailActivity extends AppCompatActivity
         // Call the ContentResolver to delete the pet at the given content URI.
         // Pass in null for the selection and selection args because the mCurrentPetUri
         // content URI already identifies the pet that we want.
-        int rowsDeleted = getContentResolver().delete(MovieEntry.CONTENT_URI, null, null);
+        String[] selectionArgs = {Long.toString(mMovieId)};
+//        int rowsDeleted = getContentResolver().delete(MovieEntry.CONTENT_URI, "" + MovieEntry._ID + "=?", selectionArgs);
+        int rowsDeleted = getContentResolver().delete(MovieEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(mMovieId)).build(),null,null);
 
         if (rowsDeleted > 0){
             Toast.makeText(this,R.string.delete_favorite_movie_successful,Toast.LENGTH_SHORT).show();
