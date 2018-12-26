@@ -39,15 +39,21 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
 
     private Context mContext;
     private Cursor mCursor;
+    private final OnItemClickListener listener;
 
     /**
      * Constructor using the context and the db mCursor
      *
      * @param context the calling context/activity
      */
-    public FavoriteMovieListAdapter(Context context, Cursor mCursor) {
+    public FavoriteMovieListAdapter(Context context, Cursor cursor, OnItemClickListener listener) {
         this.mContext = context;
-        this.mCursor = mCursor;
+        this.mCursor = cursor;
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(MovieModel movie);
     }
 
     /**
@@ -68,22 +74,34 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
     @Override
     public void onBindViewHolder(FavoriteMovieViewHolder holder, int position) {
 
-        mCursor.moveToPosition(position);
-        int movieIdIndex = mCursor.getColumnIndex(MovieContract.MovieEntry._ID);
-        int movieTitleIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE);
-        int moviePosterIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
-        int releaseDateIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
-        int voteAverageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
-        int overviewIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW);
+        try
+        {
+            mCursor.moveToPosition(position);
+            int movieIdIndex = mCursor.getColumnIndex(MovieContract.MovieEntry._ID);
+            int movieTitleIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE);
+            int moviePosterIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
+            int releaseDateIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
+            int voteAverageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
+            int overviewIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW);
 
-        Long movieId = mCursor.getLong(movieIdIndex);
-        String movieTitle = mCursor.getString(movieTitleIndex);
-        String movieImgRes = mCursor.getString(moviePosterIndex);
-        String releaseDate = mCursor.getString(releaseDateIndex);
-        float voteAverage = mCursor.getFloat(voteAverageIndex);
-        String overview = mCursor.getString(overviewIndex);
+            Long movieId = mCursor.getLong(movieIdIndex);
+            String movieTitle = mCursor.getString(movieTitleIndex);
+            String movieImgRes = mCursor.getString(moviePosterIndex);
+            String releaseDate = mCursor.getString(releaseDateIndex);
+            float voteAverage = mCursor.getFloat(voteAverageIndex);
+            String overview = mCursor.getString(overviewIndex);
 
-        final MovieModel movie = new MovieModel(movieId,movieTitle,movieImgRes,releaseDate,voteAverage,overview);
+            final MovieModel movie = new MovieModel(movieId,movieTitle,movieImgRes,releaseDate,voteAverage,overview);
+
+            holder.bind(movie, new OnItemClickListener() {
+                @Override
+                public void onItemClick(MovieModel movie) {
+                    listener.onItemClick(movie);
+                }
+            });
+        } catch (Exception ex){
+            throw ex;
+        }
 
 //        Picasso.with(view.getContext()).load(movieImgRes)
 //                .placeholder(R.drawable.imageunavailabe)
@@ -92,9 +110,9 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
     }
 
     public void swapCursor(Cursor newCursor) {
-        if (mCursor != null) {
-            mCursor.close();
-        }
+//        if (mCursor != null) {
+//            mCursor.close();
+//        }
         mCursor = newCursor;
         if (mCursor != null) {
             // Force the RecyclerView to refresh
@@ -125,7 +143,7 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
             ButterKnife.bind(this, v);
         }
 
-        public void bind(final MovieModel movie, final MovieListAdapter.OnItemClickListener listener){
+        public void bind(final MovieModel movie, final FavoriteMovieListAdapter.OnItemClickListener listener){
             Picasso.with(itemView.getContext()).load(movie.getPosterUrl())
                     .placeholder(R.drawable.imageunavailabe)
                     .error(R.drawable.imageunavailabe)

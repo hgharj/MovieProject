@@ -54,6 +54,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
     private static final int MOVIE_LOADER_ID = 100;
     private MovieListAdapter mAdapter;
     private MovieCursorAdapter mMovieCursorAdapter;
+    private FavoriteMovieListAdapter mFavoriteMovieAdapter;
 
     private AsyncTask mGetMovies;
     private Context context;
@@ -129,19 +130,33 @@ SharedPreferences.OnSharedPreferenceChangeListener{
                     // Fetching data from server
 //                    getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
                     if (getPreference().contains("favorite")){
+
                         getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
                     } else {
                         new getMoviesTask().execute();
                     }
                 }
             });
-        } else {
+        } else if (getPreference().contains("favorite")) {
+//            mFavoriteMovieAdapter = new FavoriteMovieListAdapter(context, null, new FavoriteMovieListAdapter.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(MovieModel movie) {
+//                    Intent detailIntent = new Intent(context, DetailActivity.class);
+//                    detailIntent.putExtra("Movie",movie);
+//                    startActivity(detailIntent);
+//                }
+//            });
+
+            getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, MainActivity.this);
+        }
+            else {
             // Otherwise, display error
             // Update empty state with no connection error message
             mMovieRecyclerView.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_internet);
             mEmptyStateTextView.setVisibility(View.VISIBLE);
         }
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private String getPreference(){
@@ -316,7 +331,8 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 
         @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri movieUri = MovieContract.MovieEntry.CONTENT_URI;
+        Uri movieUri = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build();
+                //MovieContract.MovieEntry.CONTENT_URI;
 //        Uri SINGLE_MOVIE_URI = ContentUris.withAppendedId(
 //                BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build(), mMovieId);
         return new CursorLoader(this, movieUri, mProjection,
@@ -351,7 +367,9 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 //        ((RatingBar) findViewById(R.id.vote_avg)).setRating(Float.valueOf(voteAverage));
 //
 //        ((TextView) findViewById(R.id.plot_tv)).setText(plot);
-        mMovieCursorAdapter = new MovieCursorAdapter(context, null, new MovieCursorAdapter.OnItemClickListener() {
+
+        cursor.moveToFirst();
+        mFavoriteMovieAdapter = new FavoriteMovieListAdapter(context, cursor, new FavoriteMovieListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MovieModel movie) {
                 Intent detailIntent = new Intent(context, DetailActivity.class);
@@ -360,11 +378,11 @@ SharedPreferences.OnSharedPreferenceChangeListener{
             }
         });
 
-        mMovieCursorAdapter.swapCursor(cursor);
+        mFavoriteMovieAdapter.swapCursor(cursor);
 
         // Clear the adapter of previous movie data
-        if (mMovieCursorAdapter != null)
-            mMovieCursorAdapter.swapCursor(null);
+//        if (mFavoriteMovieAdapter != null)
+//            mFavoriteMovieAdapter.swapCursor(null);
 
 //        // If there is a valid list of {@link Movie}s, then add them to the adapter's
 //        // data set. This will trigger the ListView to update.
@@ -376,7 +394,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 //            mEmptyStateTextView.setVisibility(View.VISIBLE);
 //        }
 
-        mMovieRecyclerView.setAdapter(mAdapter);
+        mMovieRecyclerView.setAdapter(mFavoriteMovieAdapter);
         GridLayoutManager layoutManager = new GridLayoutManager(context, getSpanCount(), GridLayoutManager.VERTICAL, false);
 
         mMovieRecyclerView.setLayoutManager(layoutManager);
@@ -389,7 +407,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mMovieCursorAdapter.swapCursor(null);
+        mFavoriteMovieAdapter.swapCursor(null);
     }
 
     @Override
@@ -411,18 +429,20 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 
     @Override
     public void onRefresh() {
-        if (checkNetworkConnection() != null && checkNetworkConnection().isConnected()) {
-            mSwipeRefreshLayout.setRefreshing(true);
-            mMovieRecyclerView.setVisibility(View.VISIBLE);
-            loadScreen();
-        } else {
-            // Otherwise, display error
-            // Update empty state with no connection error message
-            mEmptyStateTextView.setVisibility(View.VISIBLE);
-            mEmptyStateTextView.setText(R.string.no_internet);
-            mSwipeRefreshLayout.setRefreshing(false);
-            mMovieRecyclerView.setVisibility(View.GONE);
-        }
+        mSwipeRefreshLayout.setRefreshing(true);
+        loadScreen();
+//        if (checkNetworkConnection() != null && checkNetworkConnection().isConnected()) {
+//            mSwipeRefreshLayout.setRefreshing(true);
+//            mMovieRecyclerView.setVisibility(View.VISIBLE);
+//            loadScreen();
+//        } else {
+//            // Otherwise, display error
+//            // Update empty state with no connection error message
+//            mEmptyStateTextView.setVisibility(View.VISIBLE);
+//            mEmptyStateTextView.setText(R.string.no_internet);
+//            mSwipeRefreshLayout.setRefreshing(false);
+//            mMovieRecyclerView.setVisibility(View.GONE);
+//        }
     }
 
     @Override

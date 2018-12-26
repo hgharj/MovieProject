@@ -346,6 +346,7 @@ public class DetailActivity extends AppCompatActivity
 
 // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
+        values.put(MovieEntry._ID, mMovieId);
         values.put(MovieEntry.COLUMN_MOVIE_TITLE, mMovieTitle);
         values.put(MovieEntry.COLUMN_MOVIE_POSTER, mPosterUrl);
         values.put(MovieEntry.COLUMN_RELEASE_DATE, mReleaseDate);
