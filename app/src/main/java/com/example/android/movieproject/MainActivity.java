@@ -201,7 +201,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
             }
 
             mMovieRecyclerView.setAdapter(mAdapter);
-            GridLayoutManager layoutManager = new GridLayoutManager(context, getSpanCount(), GridLayoutManager.VERTICAL, false);
+            GridLayoutManager layoutManager = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
 
             mMovieRecyclerView.setLayoutManager(layoutManager);
             mMovieRecyclerView.setHasFixedSize(true);
@@ -395,7 +395,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 //        }
 
         mMovieRecyclerView.setAdapter(mFavoriteMovieAdapter);
-        GridLayoutManager layoutManager = new GridLayoutManager(context, getSpanCount(), GridLayoutManager.VERTICAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
 
         mMovieRecyclerView.setLayoutManager(layoutManager);
         mMovieRecyclerView.setHasFixedSize(true);

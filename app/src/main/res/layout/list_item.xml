@@ -5,8 +5,9 @@
 
     <ImageView
         android:id="@+id/movie_list_item_image"
-        android:layout_width="@dimen/list_item_image_dimen"
-        android:layout_height="@dimen/list_item_image_dimen"
-        android:padding="@dimen/list_item_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/list_item_padding"
+        android:paddingLeft="@dimen/list_item_padding"
         />
 </RelativeLayout>

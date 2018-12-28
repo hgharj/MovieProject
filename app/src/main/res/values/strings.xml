@@ -17,6 +17,7 @@
     <string name="vote_avg_label">Vote Average </string>
     <string name="release_date_label">Release Date </string>
     <string name="plot_label">Plot </string>
+    <string name="vote_avg_desc">4.8 </string>
 
     <string name="movie_url" translatable="false">https://api.themoviedb.org/3/movie/</string>
     <string name="trailer_url">https://www.youtube.com/watch?v="key"</string>

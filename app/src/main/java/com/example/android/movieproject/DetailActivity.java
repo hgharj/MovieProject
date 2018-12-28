@@ -75,6 +75,7 @@ public class DetailActivity extends AppCompatActivity
     private String mReleaseDate;
     private float mVoteAverage;
     private String mPlot;
+    private Boolean mFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class DetailActivity extends AppCompatActivity
         mReleaseDate = movie.getReleaseDate();
         mVoteAverage = movie.getVoteAverage();
         mPlot = movie.getOverview();
+        mFavorite = movie.getFavorite();
 
         final Context context = this;
 
@@ -114,6 +116,18 @@ public class DetailActivity extends AppCompatActivity
         ColorFilter colorFilter = new ColorFilter();
         final Drawable d = ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_star_white_18);
 //        d.setColorFilter(getResources().getColor(R.color.colorProgressTint), PorterDuff.Mode.MULTIPLY);
+        if (mFavorite){
+            d.setColorFilter(getResources().getColor(R.color.colorProgressTint), PorterDuff.Mode.MULTIPLY);
+            toggleButton.setBackgroundDrawable(d);
+            boolean checked;
+            checked = toggleButton.isChecked();
+            toggleButton.setChecked(true);
+        }
+        else{
+            d.setColorFilter(getResources().getColor(R.color.colorBlank), PorterDuff.Mode.MULTIPLY);
+            toggleButton.setBackgroundDrawable(d);
+            toggleButton.setChecked(false);
+        }
 
         toggleButton.setBackgroundDrawable(ContextCompat. getDrawable(getApplicationContext(), R.drawable.baseline_star_white_18));
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

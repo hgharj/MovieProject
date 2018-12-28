@@ -91,7 +91,7 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
             float voteAverage = mCursor.getFloat(voteAverageIndex);
             String overview = mCursor.getString(overviewIndex);
 
-            final MovieModel movie = new MovieModel(movieId,movieTitle,movieImgRes,releaseDate,voteAverage,overview);
+            final MovieModel movie = new MovieModel(movieId,movieTitle,movieImgRes,releaseDate,voteAverage,overview,true);
 
             holder.bind(movie, new OnItemClickListener() {
                 @Override

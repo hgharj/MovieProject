@@ -56,64 +56,65 @@
             app:layout_constraintRight_toRightOf="@id/poster_iv"
             app:layout_constraintTop_toTopOf="@id/poster_iv"/>
 
-        <TextView
-            android:id="@+id/vote_avg_label"
-            style="@style/labels"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/detail_label_top_padding"
-            android:text="@string/vote_avg_label"
+            android:orientation="vertical"
             app:layout_constraintLeft_toRightOf="@id/poster_iv"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/poster_iv" />
+            app:layout_constraintTop_toTopOf="@+id/poster_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/poster_iv" >
+            <TextView
+                android:id="@+id/vote_avg_label"
+                style="@style/labels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/detail_label_top_padding"
+                android:text="@string/vote_avg_label"/>
 
-        <RatingBar
-            android:id="@+id/vote_avg"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/vote_avg_label"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:progressTint="@color/colorProgressTint"
-            android:rating="3.3"
-            android:secondaryProgressTint="@color/colorProgressTint"
-            android:stepSize="0.1"
-            app:layout_constraintLeft_toLeftOf="@id/vote_avg_label"
-            app:layout_constraintRight_toRightOf="@+id/vote_avg_label"
-            app:layout_constraintTop_toBottomOf="@+id/vote_avg_label" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/vote_avg_desc_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/detail_items_left_padding"
-            android:textSize="@dimen/detail_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/vote_avg"
-            app:layout_constraintLeft_toRightOf="@id/vote_avg"
-            app:layout_constraintTop_toTopOf="@+id/vote_avg" />
+                <RatingBar
+                    android:id="@+id/vote_avg"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/vote_avg_label"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressTint="@color/colorProgressTint"
+                    android:rating="3.3"
+                    android:secondaryProgressTint="@color/colorProgressTint"
+                    android:stepSize="0.1" />
 
-        <TextView
-            android:id="@+id/release_date_label"
-            style="@style/labels"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/detail_label_top_padding"
-            android:text="@string/release_date_label"
-            app:layout_constraintLeft_toLeftOf="@id/vote_avg"
-            app:layout_constraintRight_toRightOf="@id/vote_avg"
-            app:layout_constraintTop_toBottomOf="@+id/vote_avg" />
+                <TextView
+                    android:id="@+id/vote_avg_desc_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/detail_items_left_padding"
+                    android:textSize="@dimen/detail_text_size"
+                    tools:text="@string/vote_avg_desc"/>
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/release_date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="@string/release_date_default"
-            android:textSize="@dimen/detail_text_size"
-            app:layout_constraintLeft_toLeftOf="@id/release_date_label"
-            app:layout_constraintRight_toRightOf="@id/release_date_label"
-            app:layout_constraintTop_toBottomOf="@+id/release_date_label" />
+                <TextView
+                    android:id="@+id/release_date_label"
+                    style="@style/labels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/detail_label_top_padding"
+                    android:text="@string/release_date_label" />
+
+                <TextView
+                    android:id="@+id/release_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/release_date_default"
+                    android:textSize="@dimen/detail_text_size" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/plot_label"

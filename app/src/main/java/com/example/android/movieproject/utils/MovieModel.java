@@ -32,10 +32,12 @@ public class MovieModel implements Parcelable{
     @Expose
     private String overview;
 
-    private static final String POSTER_SIZE = "w500";
+    private Boolean favorite;
+
+    private static final String POSTER_SIZE = "w780";
     private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
 
-    public MovieModel(Long id, String title, String posterPath,  String releaseDate, Float voteAverage, String overview) {
+    public MovieModel(Long id, String title, String posterPath,  String releaseDate, Float voteAverage, String overview, Boolean favorite) {
         if (posterPath.contains(POSTER_SIZE) & posterPath.contains(POSTER_BASE_URL)){
             this.posterPath = posterPath;
         } else {
@@ -46,6 +48,7 @@ public class MovieModel implements Parcelable{
         this.title = title;
         this.voteAverage = voteAverage;
         this.overview = overview;
+        this.favorite = favorite;
     }
     public Long getId() {
         return id;
@@ -108,6 +111,17 @@ public class MovieModel implements Parcelable{
         this.overview = overview;
     }
 
+    public Boolean getFavorite(){
+        if (this.favorite == null) {
+            return favorite = false;
+        }
+        return this.favorite;
+    }
+
+    public void setFavorite(Boolean favorite){
+        this.favorite = favorite;
+    }
+
     public MovieModel(Parcel parcel){
         this.id = parcel.readLong();
         this.title = parcel.readString();
@@ -115,6 +129,7 @@ public class MovieModel implements Parcelable{
         this.releaseDate = parcel.readString();
         this.voteAverage = parcel.readFloat();
         this.overview = parcel.readString();
+        this.favorite = parcel.readByte() != 0;
     }
 
     //creator - used when un-parceling our parcel (creating the object)
@@ -143,5 +158,7 @@ public class MovieModel implements Parcelable{
         dest.writeString(releaseDate);
         dest.writeFloat(voteAverage);
         dest.writeString(overview);
+        if (favorite==null) favorite = false;
+        dest.writeByte((byte) (favorite ? 1:0));
     }
 }
