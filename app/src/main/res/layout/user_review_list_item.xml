@@ -20,6 +20,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/user_review_content_padding_left"
         tools:text="Content content content content content"
+
+        android:justificationMode="inter_word"
         app:layout_constraintLeft_toLeftOf="@id/user_review_author_list_item"
         app:layout_constraintTop_toBottomOf="@+id/user_review_author_list_item"
         />

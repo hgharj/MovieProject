@@ -1,5 +1,6 @@
 package com.example.android.movieproject;
 
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +69,49 @@ public class UserReviewListAdapter extends RecyclerView.Adapter<UserReviewListAd
         
         public void bind(final UserReviewModel userReview, final OnItemClickListener listener){
             userReviewContent_tv.setText(userReview.getContent());
+
+            int reviewLen;
+            String content;
+            userReviewContent_tv.post(new Runnable() {
+                                          @Override
+                                          public void run() {
+                                              int lineCnt = userReviewContent_tv.getLineCount();
+                                              if (lineCnt>3){
+//                                                  userReviewContent_tv.setLines(4);
+                                                  int lineEnd = userReviewContent_tv.getLayout().getLineVisibleEnd(3);
+                                                  CharSequence text = userReviewContent_tv.getText().subSequence(0,lineEnd);
+                                                  lineCnt = userReviewContent_tv.getLineCount();
+                                                  int len = userReviewContent_tv.getLayout().getLineEnd(1);
+                                                  String filler = "";
+                                                  for(int i=0; i<len-15;i++){
+                                                      filler += " ";
+                                                  }
+                                                  text = text + "\n" + filler + "READ MORE";
+                                                  userReviewContent_tv.setText(text);
+
+                                                  //userReviewContent_tv.setText(userReview.getContent() + " \n MORE...");
+                                                 }
+//                                              else {
+//                                                  userReviewContent_tv.setText(userReview.getContent());
+//                                              }
+                                          }
+                                      });
+//            reviewLen = userReview.getContent().length();
+//            if (reviewLen>140){
+//                content = userReview.getContent().substring(0,139) + " \n MORE...";
+//                userReviewContent_tv.setText(content);
+//            } else {
+//                userReviewContent_tv.setText(userReview.getContent());
+//            }
             userReviewAuthor_tv.setText(userReview.getAuthor());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(userReview);
+                }
+            });
         }
+
     }
 }
