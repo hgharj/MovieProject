@@ -61,6 +61,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
     
     @BindView(R.id.movie_recycler_view) RecyclerView mMovieRecyclerView;
     @BindView(R.id.empty_view) TextView mEmptyStateTextView;
+    @BindView(R.id.title_view) TextView mTitleTextView;
 
     @BindView(R.id.swipe_container) SwipeRefreshLayout mSwipeRefreshLayout;
     private static final String SEARCH_POPULAR="popular";
@@ -200,12 +201,18 @@ SharedPreferences.OnSharedPreferenceChangeListener{
                 mEmptyStateTextView.setVisibility(View.VISIBLE);
             }
 
+            if (getPreference().contains("vote")){
+                mTitleTextView.setText(R.string.settings_order_by_highest_rated_desc_label);
+            } else if (getPreference().contains("popular")){
+                mTitleTextView.setText(R.string.settings_order_by_most_popular_desc_label);
+            }
+
             mMovieRecyclerView.setAdapter(mAdapter);
             GridLayoutManager layoutManager = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
 
             mMovieRecyclerView.setLayoutManager(layoutManager);
             mMovieRecyclerView.setHasFixedSize(true);
-            mMovieRecyclerView.addItemDecoration(new DividerItemDecoration(mMovieRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+//            mMovieRecyclerView.addItemDecoration(new DividerItemDecoration(mMovieRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
             if (mSwipeRefreshLayout.isRefreshing()) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -368,7 +375,21 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 //
 //        ((TextView) findViewById(R.id.plot_tv)).setText(plot);
 
-        cursor.moveToFirst();
+        mTitleTextView.setText(R.string.settings_order_by_favorite_desc_label);
+
+        if (cursor != null && cursor.getCount()>0) {
+            mEmptyStateTextView.setVisibility(View.GONE);
+            cursor.moveToFirst();
+
+        } else {
+            mEmptyStateTextView.setText(R.string.no_movies);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
+            if (mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }
+
+
         mFavoriteMovieAdapter = new FavoriteMovieListAdapter(context, cursor, new FavoriteMovieListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MovieModel movie) {
@@ -379,6 +400,8 @@ SharedPreferences.OnSharedPreferenceChangeListener{
         });
 
         mFavoriteMovieAdapter.swapCursor(cursor);
+
+
 
         // Clear the adapter of previous movie data
 //        if (mFavoriteMovieAdapter != null)
@@ -399,7 +422,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 
         mMovieRecyclerView.setLayoutManager(layoutManager);
         mMovieRecyclerView.setHasFixedSize(true);
-        mMovieRecyclerView.addItemDecoration(new DividerItemDecoration(mMovieRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+//        mMovieRecyclerView.addItemDecoration(new DividerItemDecoration(mMovieRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         if (mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(false);
         }

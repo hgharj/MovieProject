@@ -20,6 +20,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -75,7 +76,14 @@ public class DetailActivity extends AppCompatActivity
     private String mReleaseDate;
     private float mVoteAverage;
     private String mPlot;
-    private Boolean mFavorite;
+    private String[] mProjection = {
+            MovieEntry._ID,
+            MovieEntry.COLUMN_MOVIE_TITLE,
+            MovieEntry.COLUMN_MOVIE_POSTER,
+            MovieEntry.COLUMN_RELEASE_DATE,
+            MovieEntry.COLUMN_VOTE_AVERAGE,
+            MovieEntry.COLUMN_OVERVIEW
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +99,6 @@ public class DetailActivity extends AppCompatActivity
         mReleaseDate = movie.getReleaseDate();
         mVoteAverage = movie.getVoteAverage();
         mPlot = movie.getOverview();
-        mFavorite = movie.getFavorite();
 
         final Context context = this;
 
@@ -116,7 +123,7 @@ public class DetailActivity extends AppCompatActivity
         ColorFilter colorFilter = new ColorFilter();
         final Drawable d = ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_star_white_18);
 //        d.setColorFilter(getResources().getColor(R.color.colorProgressTint), PorterDuff.Mode.MULTIPLY);
-        if (mFavorite){
+        if (selectMovie()){
             d.setColorFilter(getResources().getColor(R.color.colorProgressTint), PorterDuff.Mode.MULTIPLY);
             toggleButton.setBackgroundDrawable(d);
             boolean checked;
@@ -302,6 +309,7 @@ public class DetailActivity extends AppCompatActivity
             }
 
             mUserReviewRecyclerView.setAdapter(mUserReviewAdapter);
+            mUserReviewRecyclerView.addItemDecoration(new DividerItemDecoration(mUserReviewRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         }
 
         @Override
@@ -354,6 +362,25 @@ public class DetailActivity extends AppCompatActivity
 //
 //    }
 
+    public Boolean selectMovie() {
+        ContentValues values = new ContentValues();
+        values.put(MovieEntry._ID, mMovieId);
+        values.put(MovieEntry.COLUMN_MOVIE_TITLE, mMovieTitle);
+        values.put(MovieEntry.COLUMN_MOVIE_POSTER, mPosterUrl);
+        values.put(MovieEntry.COLUMN_RELEASE_DATE, mReleaseDate);
+        values.put(MovieEntry.COLUMN_VOTE_AVERAGE, mVoteAverage);
+        values.put(MovieEntry.COLUMN_OVERVIEW, mPlot);
+
+        String[] selectionArgs = {Long.toString(mMovieId)};
+        Cursor cursor = getContentResolver().query(MovieEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(mMovieId)).build(),mProjection,null,selectionArgs,null);
+        if (cursor != null && cursor.getCount()>0){
+            cursor.close();
+            return true;
+        } else if(cursor != null){
+            cursor.close();
+        }
+        return false;
+    }
     public void insertMovie() {
 // Gets the data repository in write mode
 //        SQLiteDatabase db = mDbHelper.getWritableDatabase();

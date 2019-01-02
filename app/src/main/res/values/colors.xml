@@ -6,4 +6,5 @@
     <color name="colorProgressTint">#FFC400</color>
     <color name="colorBlank">#80FFFFFF</color>
     <color name="colorBackground">#000000</color>
+    <color name="colorGray">#D2D3D4</color>
 </resources>

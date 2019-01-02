@@ -58,6 +58,7 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
 
     static class TrailerViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.trailer_list_item_image) ImageView trailerImg;
+        @BindView(R.id.share_image) ImageView shareImg;
 
         public TrailerViewHolder(View v){
             super(v);
@@ -79,6 +80,7 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
                     listener.onItemClick(trailer);
                 }
             });
+
         }
     }
 }

@@ -3,11 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorGray">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:background="@android:color/white">
 
         <TextView
             android:id="@+id/movie_title_tv"
@@ -18,6 +29,7 @@
             tools:text="@string/movie_title"
             android:textAlignment="center"
             android:textAllCaps="true"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/detail_title_text_size"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -88,39 +100,43 @@
                     android:paddingLeft="@dimen/detail_items_left_padding"
                     android:textSize="@dimen/detail_text_size"
                     tools:text="@string/vote_avg_desc"/>
-                </LinearLayout>
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/release_date_label"
-                    style="@style/labels"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/detail_label_top_padding"
-                    android:text="@string/release_date_label" />
+            <TextView
+                android:id="@+id/release_date_label"
+                style="@style/labels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/detail_label_top_padding"
+                android:text="@string/release_date_label" />
 
-                <TextView
-                    android:id="@+id/release_date_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/release_date_default"
-                    android:textSize="@dimen/detail_text_size" />
+            <TextView
+                android:id="@+id/release_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/release_date_default"
+                android:textSize="@dimen/detail_text_size" />
 
         </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
         <TextView
             android:id="@+id/plot_label"
             style="@style/labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="4dp"
             android:paddingLeft="@dimen/detail_items_left_padding"
             android:text="@string/plot_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/poster_iv" />
+            app:layout_constraintTop_toBottomOf="@+id/cl_poster" />
 
         <TextView
             android:id="@+id/plot_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@android:color/white"
             android:justificationMode="inter_word"
             android:padding="@dimen/detail_items_full_padding"
             tools:text="@string/plot_default"
@@ -133,6 +149,7 @@
             android:id="@+id/trailer_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="4dp"
             android:paddingLeft="@dimen/detail_items_left_padding"
             style="@style/labels"
             android:text="@string/trailer_label"
@@ -145,6 +162,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp"
+            android:layout_margin="8dp"
+            android:background="@android:color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trailer_label">
@@ -168,6 +187,7 @@
             android:id="@+id/user_review_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="4dp"
             android:paddingLeft="@dimen/detail_items_left_padding"
             style="@style/labels"
             android:text="@string/review_label"
@@ -179,6 +199,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp"
+            android:layout_margin="8dp"
+            android:background="@android:color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_review_label">

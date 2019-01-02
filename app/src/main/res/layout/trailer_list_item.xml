@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/trailer_list_item_image"
-        android:layout_width="@dimen/list_item_image_dimen"
-        android:layout_height="@dimen/list_item_image_dimen"
-        android:padding="@dimen/list_item_padding" />
-</RelativeLayout>
+        android:contentDescription="@string/movie_poster_content_desc"
+        tools:src="@drawable/imageunavailabe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/list_item_padding"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:id="@+id/share_image"
+        android:src="@drawable/outline_share_black_18"
+
+        tools:src="@drawable/outline_share_black_18"
+        android:contentDescription="@string/share_img_content_desc"
+        android:layout_width="@dimen/share_image_dimen"
+        android:layout_height="@dimen/share_image_dimen"
+        android:layout_below="@id/trailer_list_item_image"
+        app:layout_constraintTop_toBottomOf="@id/trailer_list_item_image"
+        app:layout_constraintLeft_toLeftOf="@id/trailer_list_item_image"
+        app:layout_constraintRight_toRightOf="@id/trailer_list_item_image"
+        />
+</android.support.constraint.ConstraintLayout>

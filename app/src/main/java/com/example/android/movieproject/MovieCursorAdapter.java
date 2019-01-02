@@ -110,7 +110,7 @@ public class MovieCursorAdapter extends CursorAdapter{
         float voteAverage = cursor.getFloat(voteAverageIndex);
         String overview = cursor.getString(overviewIndex);
 
-        final MovieModel movie = new MovieModel(movieId,movieTitle,movieImgRes,releaseDate,voteAverage,overview,true);
+        final MovieModel movie = new MovieModel(movieId,movieTitle,movieImgRes,releaseDate,voteAverage,overview);
 
         Picasso.with(view.getContext()).load(movieImgRes)
                 .placeholder(R.drawable.imageunavailabe)
