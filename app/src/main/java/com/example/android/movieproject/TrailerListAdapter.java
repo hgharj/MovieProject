@@ -1,5 +1,7 @@
 package com.example.android.movieproject;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +24,12 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
 
     private final List<TrailerModel> trailers;
     private final OnItemClickListener listener;
+    private final Context mContext;
 
-    public TrailerListAdapter(List<TrailerModel> trailers, OnItemClickListener listener){
+    public TrailerListAdapter(List<TrailerModel> trailers, Context context, OnItemClickListener listener){
         this.trailers=trailers;
         this.listener=listener;
+        this.mContext=context;
     }
 
     public interface OnItemClickListener {
@@ -56,7 +60,7 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
         return new TrailerViewHolder(v);
     }
 
-    static class TrailerViewHolder extends RecyclerView.ViewHolder{
+    public class TrailerViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.trailer_list_item_image) ImageView trailerImg;
         @BindView(R.id.share_image) ImageView shareImg;
 
@@ -68,7 +72,7 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
         public void bind(final TrailerModel trailer, final OnItemClickListener listener){
             String thumbnailBaseUrl = "https://img.youtube.com/vi/";
             String thumbnailEndUrl = "/0.jpg";
-            String thumbnailUrl = thumbnailBaseUrl + trailer.getKey() + thumbnailEndUrl;
+            final String thumbnailUrl = thumbnailBaseUrl + trailer.getKey() + thumbnailEndUrl;
 
             Picasso.with(itemView.getContext()).load(thumbnailUrl)
                     .placeholder(R.drawable.imageunavailabe)
@@ -78,6 +82,17 @@ public class TrailerListAdapter extends RecyclerView.Adapter<TrailerListAdapter.
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(trailer);
+                }
+            });
+
+            shareImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, thumbnailUrl);
+                    sendIntent.setType("text/plain");
+                    mContext.startActivity(Intent.createChooser(sendIntent, "Check out this trailer!"));
                 }
             });
 

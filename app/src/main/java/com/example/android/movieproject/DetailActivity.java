@@ -56,12 +56,13 @@ public class DetailActivity extends AppCompatActivity
 {
 //    private static final int INVALID_MOVIE_ID = -1;
     @BindView(R.id.movie_title_tv) TextView mMovieTitle_tv;
-    @BindView(R.id.poster_iv) ImageView mPoster_tv;
+    @BindView(R.id.poster_iv) ImageView mPoster_iv;
     @BindView(R.id.release_date_tv) TextView mReleaseDate_tv;
     @BindView(R.id.vote_avg) RatingBar mVoteAverage_rb;
     @BindView(R.id.vote_avg_desc_tv) TextView mVoteAverageDesc_tv;
     @BindView(R.id.plot_tv) TextView mPlot_tv;
 
+//    @BindView(R.id.share_image) ImageView mShare_iv;
     @BindView(R.id.trailer_recycler_view) RecyclerView mTrailerRecyclerView;
     @BindView(R.id.no_trailers) TextView mNoTrailerTextView;
     @BindView(R.id.user_review_recycler_view) RecyclerView mUserReviewRecyclerView;
@@ -171,7 +172,7 @@ public class DetailActivity extends AppCompatActivity
             Picasso.with(this).load(url)
                     .placeholder(R.drawable.imageunavailabe)
                     .error(R.drawable.imageunavailabe)
-                    .into(mPoster_tv);
+                    .into(mPoster_iv);
             mReleaseDate_tv.setText(releaseDate);
             //voteAverage is divided by 2 because there are only 5 starts whereas voteAverage goes up to 10.
             //Therefore 2 voteAverage points equate to 1 star.
@@ -192,7 +193,7 @@ public class DetailActivity extends AppCompatActivity
         ArrayList trailers = new ArrayList<TrailerModel>();
         ArrayList userReviews = new ArrayList<UserReviewModel>();
 
-        mTrailerAdapter = new TrailerListAdapter(trailers, new TrailerListAdapter.OnItemClickListener() {
+        mTrailerAdapter = new TrailerListAdapter(trailers,context, new TrailerListAdapter.OnItemClickListener() {
             //Pass movie data into the intent so that the detail screen can access it.
             @Override
             public void onItemClick(TrailerModel trailer) {
@@ -278,6 +279,13 @@ public class DetailActivity extends AppCompatActivity
                 mNoTrailerTextView.setVisibility(View.VISIBLE);
             }
 
+//            mShare_iv.setBackgroundResource(R.drawable.outline_share_black_18);
+//            mShare_iv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
             mTrailerRecyclerView.setAdapter(mTrailerAdapter);
         }
 

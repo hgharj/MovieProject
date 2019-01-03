@@ -317,19 +317,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
 //        }
 //    }
 
-    private int getSpanCount() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        int screenSize = metrics.widthPixels;
-
-        float minElemSize = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                100,
-                metrics
-        );
-        return (int) (screenSize / minElemSize);
-    }
 
 //    @Override
 ////    public void onLoaderReset(Loader<List<MovieModel>> movies) {

@@ -20,7 +20,6 @@
     <ImageView
         android:id="@+id/share_image"
         android:src="@drawable/outline_share_black_18"
-
         tools:src="@drawable/outline_share_black_18"
         android:contentDescription="@string/share_img_content_desc"
         android:layout_width="@dimen/share_image_dimen"
@@ -28,6 +27,5 @@
         android:layout_below="@id/trailer_list_item_image"
         app:layout_constraintTop_toBottomOf="@id/trailer_list_item_image"
         app:layout_constraintLeft_toLeftOf="@id/trailer_list_item_image"
-        app:layout_constraintRight_toRightOf="@id/trailer_list_item_image"
-        />
+        app:layout_constraintRight_toRightOf="@id/trailer_list_item_image"/>
 </android.support.constraint.ConstraintLayout>
