@@ -11,5 +11,6 @@
 
     <dimen name="list_item_padding">2dp</dimen>
     <dimen name="list_item_image_dimen">250dp</dimen>
+    <dimen name="trailer_list_item_image_dimen">100dp</dimen>
     <dimen name="share_image_dimen">25dp</dimen>
 </resources>

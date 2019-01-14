@@ -3,21 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorBackground"
+    android:orientation="vertical"
     tools:context="com.example.android.movieproject.MainActivity">
+
     <TextView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:gravity="center"
         android:padding="8dp"
+        android:textAllCaps="true"
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="@android:color/white"
-        android:textAllCaps="true"
         android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        tools:text="@string/movie_title"/>
+        tools:text="@string/movie_title" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
@@ -25,11 +26,10 @@
         android:layout_height="match_parent"
         android:layout_below="@id/title_view">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/movie_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movie_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
@@ -38,6 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

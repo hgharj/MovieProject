@@ -1,21 +1,5 @@
 package com.example.android.movieproject;
 
-/*
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *  	http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -23,13 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.android.movieproject.R;
 import com.example.android.movieproject.provider.MovieContract;
-import com.example.android.movieproject.provider.MovieContract.MovieEntry;
 import com.example.android.movieproject.utils.MovieModel;
-import com.example.android.movieproject.utils.MovieUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -41,11 +21,6 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
     private Cursor mCursor;
     private final OnItemClickListener listener;
 
-    /**
-     * Constructor using the context and the db mCursor
-     *
-     * @param context the calling context/activity
-     */
     public FavoriteMovieListAdapter(Context context, Cursor cursor, OnItemClickListener listener) {
         this.mContext = context;
         this.mCursor = cursor;
@@ -73,46 +48,32 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
 
     @Override
     public void onBindViewHolder(FavoriteMovieViewHolder holder, int position) {
+        mCursor.moveToPosition(position);
+        int movieIdIndex = mCursor.getColumnIndex(MovieContract.MovieEntry._ID);
+        int movieTitleIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE);
+        int moviePosterIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
+        int releaseDateIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
+        int voteAverageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
+        int overviewIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW);
 
-        try
-        {
-            mCursor.moveToPosition(position);
-            int movieIdIndex = mCursor.getColumnIndex(MovieContract.MovieEntry._ID);
-            int movieTitleIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE);
-            int moviePosterIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER);
-            int releaseDateIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE);
-            int voteAverageIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE);
-            int overviewIndex = mCursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW);
+        Long movieId = mCursor.getLong(movieIdIndex);
+        String movieTitle = mCursor.getString(movieTitleIndex);
+        String movieImgRes = mCursor.getString(moviePosterIndex);
+        String releaseDate = mCursor.getString(releaseDateIndex);
+        float voteAverage = mCursor.getFloat(voteAverageIndex);
+        String overview = mCursor.getString(overviewIndex);
 
-            Long movieId = mCursor.getLong(movieIdIndex);
-            String movieTitle = mCursor.getString(movieTitleIndex);
-            String movieImgRes = mCursor.getString(moviePosterIndex);
-            String releaseDate = mCursor.getString(releaseDateIndex);
-            float voteAverage = mCursor.getFloat(voteAverageIndex);
-            String overview = mCursor.getString(overviewIndex);
+        final MovieModel movie = new MovieModel(movieId, movieTitle, movieImgRes, releaseDate, voteAverage, overview);
 
-            final MovieModel movie = new MovieModel(movieId,movieTitle,movieImgRes,releaseDate,voteAverage,overview);
-
-            holder.bind(movie, new OnItemClickListener() {
-                @Override
-                public void onItemClick(MovieModel movie) {
-                    listener.onItemClick(movie);
-                }
-            });
-        } catch (Exception ex){
-            throw ex;
-        }
-
-//        Picasso.with(view.getContext()).load(movieImgRes)
-//                .placeholder(R.drawable.imageunavailabe)
-//                .error(R.drawable.imageunavailabe)
-//                .into(movieImg);
+        holder.bind(movie, new OnItemClickListener() {
+            @Override
+            public void onItemClick(MovieModel movie) {
+                listener.onItemClick(movie);
+            }
+        });
     }
 
     public void swapCursor(Cursor newCursor) {
-//        if (mCursor != null) {
-//            mCursor.close();
-//        }
         mCursor = newCursor;
         if (mCursor != null) {
             // Force the RecyclerView to refresh
@@ -132,18 +93,18 @@ public class FavoriteMovieListAdapter extends RecyclerView.Adapter<FavoriteMovie
     }
 
     /**
-     * MovieViewHolder class for the recycler view item
+     * FavoriteMovieViewHolder class for the recycler view item
      */
     class FavoriteMovieViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.movie_list_item_image)
+        ImageView movieImg;
 
-        @BindView(R.id.movie_list_item_image) ImageView movieImg;
-
-        public FavoriteMovieViewHolder(View v){
+        public FavoriteMovieViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
         }
 
-        public void bind(final MovieModel movie, final FavoriteMovieListAdapter.OnItemClickListener listener){
+        public void bind(final MovieModel movie, final FavoriteMovieListAdapter.OnItemClickListener listener) {
             Picasso.with(itemView.getContext()).load(movie.getPosterUrl())
                     .placeholder(R.drawable.imageunavailabe)
                     .error(R.drawable.imageunavailabe)

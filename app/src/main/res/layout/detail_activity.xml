@@ -9,124 +9,125 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cl_poster"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        android:background="@android:color/white">
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:background="@android:color/white"
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/movie_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/detail_top_bottom_padding"
-            android:paddingTop="@dimen/detail_top_bottom_padding"
-            tools:text="@string/movie_title"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/detail_title_text_size"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <ImageView
-            android:id="@+id/poster_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/movie_poster_content_desc"
-            android:paddingBottom="@dimen/detail_top_bottom_padding"
-            android:paddingLeft="@dimen/detail_items_left_padding"
-            tools:src="@drawable/imageunavailabe"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movie_title_tv" />
-
-        <ToggleButton
-            android:id="@+id/favorite_tb"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            tools:src="@drawable/baseline_star_white_18"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:textOn=""
-            android:textOff=""
-            android:background="@android:color/transparent"
-            app:layout_constraintRight_toRightOf="@id/poster_iv"
-            app:layout_constraintTop_toTopOf="@id/poster_iv"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toRightOf="@id/poster_iv"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/poster_iv"
-            app:layout_constraintBottom_toBottomOf="@+id/poster_iv" >
             <TextView
-                android:id="@+id/vote_avg_label"
-                style="@style/labels"
+                android:id="@+id/movie_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/detail_label_top_padding"
-                android:text="@string/vote_avg_label"/>
+                android:paddingTop="@dimen/detail_top_bottom_padding"
+                android:paddingBottom="@dimen/detail_top_bottom_padding"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/detail_title_text_size"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="@string/movie_title" />
+
+            <ImageView
+                android:id="@+id/poster_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/movie_poster_content_desc"
+                android:paddingLeft="@dimen/detail_items_left_padding"
+                android:paddingBottom="@dimen/detail_top_bottom_padding"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movie_title_tv"
+                tools:src="@drawable/imageunavailabe" />
+
+            <ToggleButton
+                android:id="@+id/favorite_tb"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintRight_toRightOf="@id/poster_iv"
+                app:layout_constraintTop_toTopOf="@id/poster_iv"
+                tools:src="@drawable/baseline_star_white_18" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <RatingBar
-                    android:id="@+id/vote_avg"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/vote_avg_label"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:progressTint="@color/colorProgressTint"
-                    android:rating="3.3"
-                    android:secondaryProgressTint="@color/colorProgressTint"
-                    android:stepSize="0.1" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/poster_iv"
+                app:layout_constraintLeft_toRightOf="@id/poster_iv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/poster_iv">
 
                 <TextView
-                    android:id="@+id/vote_avg_desc_tv"
+                    android:id="@+id/vote_avg_label"
+                    style="@style/labels"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/detail_items_left_padding"
+                    android:paddingTop="@dimen/detail_label_top_padding"
+                    android:text="@string/vote_avg_label" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RatingBar
+                        android:id="@+id/vote_avg"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/vote_avg_label"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:progressTint="@color/colorProgressTint"
+                        android:rating="3.3"
+                        android:secondaryProgressTint="@color/colorProgressTint"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/vote_avg_desc_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/detail_items_left_padding"
+                        android:textSize="@dimen/detail_text_size"
+                        tools:text="@string/vote_avg_desc" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/release_date_label"
+                    style="@style/labels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/detail_label_top_padding"
+                    android:text="@string/release_date_label" />
+
+                <TextView
+                    android:id="@+id/release_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textSize="@dimen/detail_text_size"
-                    tools:text="@string/vote_avg_desc"/>
+                    tools:text="@string/release_date_default" />
+
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/release_date_label"
-                style="@style/labels"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/detail_label_top_padding"
-                android:text="@string/release_date_label" />
-
-            <TextView
-                android:id="@+id/release_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="@string/release_date_default"
-                android:textSize="@dimen/detail_text_size" />
-
-        </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <TextView
             android:id="@+id/plot_label"
             style="@style/labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
             android:paddingLeft="@dimen/detail_items_left_padding"
+            android:paddingTop="4dp"
             android:text="@string/plot_label"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_poster" />
@@ -139,31 +140,31 @@
             android:background="@android:color/white"
             android:justificationMode="inter_word"
             android:padding="@dimen/detail_items_full_padding"
-            tools:text="@string/plot_default"
             android:textSize="@dimen/detail_text_size"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plot_label" />
+            app:layout_constraintTop_toBottomOf="@+id/plot_label"
+            tools:text="@string/plot_default" />
 
         <TextView
             android:id="@+id/trailer_label"
+            style="@style/labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
             android:paddingLeft="@dimen/detail_items_left_padding"
-            style="@style/labels"
+            android:paddingTop="4dp"
             android:text="@string/trailer_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plot_tv"/>
+            app:layout_constraintTop_toBottomOf="@+id/plot_tv" />
 
         <LinearLayout
             android:id="@+id/trailer_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp"
             android:layout_margin="8dp"
             android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trailer_label">
@@ -172,35 +173,34 @@
                 android:id="@+id/no_trailers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_trailers"/>
+                android:text="@string/no_trailers" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/trailer_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                />
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/user_review_label"
+            style="@style/labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
             android:paddingLeft="@dimen/detail_items_left_padding"
-            style="@style/labels"
+            android:paddingTop="4dp"
             android:text="@string/review_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trailer_layout"/>
+            app:layout_constraintTop_toBottomOf="@+id/trailer_layout" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
             android:layout_margin="8dp"
             android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_review_label">
@@ -210,14 +210,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/no_reviews"/>
+                android:text="@string/no_reviews" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/user_review_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>

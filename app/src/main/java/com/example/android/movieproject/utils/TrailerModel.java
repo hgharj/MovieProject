@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TrailerModel implements Parcelable{
+public class TrailerModel implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -34,6 +34,7 @@ public class TrailerModel implements Parcelable{
         this.name = name;
         this.type = type;
     }
+
     public String getId() {
         return id;
     }
@@ -59,11 +60,11 @@ public class TrailerModel implements Parcelable{
     }
 
     public String getTrailerUrl() {
-        return TRAILER_BASE_URL  + key;
+        return TRAILER_BASE_URL + key;
     }
 
     public void setTrailerUrl(String key) {
-        this.trailerPath = TRAILER_BASE_URL  + key;
+        this.trailerPath = TRAILER_BASE_URL + key;
     }
 
     public String getType() {
@@ -74,7 +75,7 @@ public class TrailerModel implements Parcelable{
         this.type = type;
     }
 
-    public TrailerModel(Parcel parcel){
+    public TrailerModel(Parcel parcel) {
         this.id = parcel.readString();
         this.name = parcel.readString();
         this.key = parcel.readString();
@@ -82,7 +83,7 @@ public class TrailerModel implements Parcelable{
     }
 
     //creator - used when un-parceling our parcel (creating the object)
-    public static final Creator CREATOR = new Creator(){
+    public static final Creator CREATOR = new Creator() {
         @Override
         public TrailerModel createFromParcel(Parcel parcel) {
             return new TrailerModel(parcel);

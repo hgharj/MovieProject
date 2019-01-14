@@ -3,8 +3,7 @@ package com.example.android.movieproject.provider;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-
-public class MovieContract  {
+public class MovieContract {
     // The authority, which is how your code knows which Content Provider to access
     public static final String AUTHORITY = "com.example.android.movieproject";
 
@@ -18,7 +17,6 @@ public class MovieContract  {
     public static final long INVALID_MOVIE_ID = -1;
 
     public static final class MovieEntry implements BaseColumns {
-
         // TaskEntry content URI = base content URI + path
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build();
@@ -30,5 +28,4 @@ public class MovieContract  {
         public static final String COLUMN_VOTE_AVERAGE = "voteAverage";
         public static final String COLUMN_OVERVIEW = "overview";
     }
-
 }

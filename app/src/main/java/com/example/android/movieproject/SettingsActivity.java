@@ -1,12 +1,12 @@
 package com.example.android.movieproject;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -18,14 +18,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static class MoviePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-//        private int mDefaultPrefIndex = 0;
+        private int mDefaultPrefIndex = 0;
         private int mCurrentPrefIndex = 0;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
-
             Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
             bindPreferenceSummaryToValue(orderBy);
         }
@@ -44,9 +43,10 @@ public class SettingsActivity extends AppCompatActivity {
                 preference.setSummary(stringValue);
             }
 
-//            if (mCurrentPrefIndex != mDefaultPrefIndex) {
-//                getActivity().onBackPressed();
-//            }
+            if (mCurrentPrefIndex != mDefaultPrefIndex) {
+                super.getActivity().onBackPressed();
+                NavUtils.navigateUpFromSameTask(getActivity());
+            }
             return true;
         }
 
@@ -54,13 +54,11 @@ public class SettingsActivity extends AppCompatActivity {
             preference.setOnPreferenceChangeListener(this);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
             String preferenceString = preferences.getString(preference.getKey(), "");
-//            if (preference instanceof ListPreference) {
-//                ListPreference listPreference = (ListPreference) preference;
-//                mDefaultPrefIndex = listPreference.findIndexOfValue(preferenceString);
-//            }
+            if (preference instanceof ListPreference) {
+                ListPreference listPreference = (ListPreference) preference;
+                mDefaultPrefIndex = listPreference.findIndexOfValue(preferenceString);
+            }
             onPreferenceChange(preference, preferenceString);
         }
-
-
     }
 }

@@ -17,8 +17,4 @@ public class MovieResponse {
     public List<MovieModel> getMovieList() {
         return movieList;
     }
-
-    public void setMovieList(List<MovieModel> movieList) {
-        this.movieList = movieList;
-    }
 }

@@ -12,12 +12,12 @@ android {
     }
     buildTypes {
         debug {
-//            buildConfigField 'String', "ApiKey", MovieProject_ApiKey
+            buildConfigField 'String', "ApiKey", MovieProject_ApiKey
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            buildConfigField 'String', "ApiKey", MovieProject_ApiKey
+            buildConfigField 'String', "ApiKey", MovieProject_ApiKey
         }
     }
 

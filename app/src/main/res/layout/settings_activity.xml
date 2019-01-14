@@ -4,6 +4,4 @@
     android:name="com.example.android.movieproject.SettingsActivity$MoviePreferenceFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.movieproject.SettingsActivity">
-
-</fragment>
+    tools:context="com.example.android.movieproject.SettingsActivity"></fragment>

@@ -17,8 +17,4 @@ public class UserReviewResponse {
     public List<UserReviewModel> getReviewList() {
         return reviewList;
     }
-
-    public void setReviewList(List<UserReviewModel> reviewList) {
-        this.reviewList = reviewList;
-    }
 }

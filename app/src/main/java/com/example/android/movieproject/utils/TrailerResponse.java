@@ -17,8 +17,4 @@ public class TrailerResponse {
     public List<TrailerModel> getTrailerList() {
         return trailerList;
     }
-
-    public void setTrailerList(List<TrailerModel> trailerList) {
-        this.trailerList = trailerList;
-    }
 }

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserReviewModel implements Parcelable{
+public class UserReviewModel implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -49,14 +49,14 @@ public class UserReviewModel implements Parcelable{
         this.content = content;
     }
 
-    public UserReviewModel(Parcel parcel){
+    public UserReviewModel(Parcel parcel) {
         this.id = parcel.readString();
         this.author = parcel.readString();
         this.content = parcel.readString();
     }
 
     //creator - used when un-parceling our parcel (creating the object)
-    public static final Creator CREATOR = new Creator(){
+    public static final Creator CREATOR = new Creator() {
         @Override
         public UserReviewModel createFromParcel(Parcel parcel) {
             return new UserReviewModel(parcel);

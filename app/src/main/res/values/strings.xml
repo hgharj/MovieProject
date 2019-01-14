@@ -21,10 +21,15 @@
     <string name="share_img_content_desc">4.8 </string>
 
     <string name="movie_url" translatable="false">https://api.themoviedb.org/3/movie/</string>
-    <string name="trailer_url">https://www.youtube.com/watch?v="key"</string>
+    <string name="trailer_url">https://www.youtube.com/watch?v=</string>
+    <string name="vnb_youtube">vnd.youtube:</string>
+    <string name="share_trailer_title">Check out this trailer!</string>
+    <string name="user_review_filler">Content content content content content</string>
     <string name="endpoint_top_rated" translatable="false">top_rated?</string>
     <string name="endpoint_popular" translatable="false">popular?</string>
 
+    <string name="add_favorite_movie">Added to Favorites</string>
+    <string name="delete_favorite_movie">Deleted from Favorites</string>
     <string name="delete_favorite_movie_successful">This movie has been successfully removed from favorites.</string>
     <string name="delete_favorite_movie_failed">This movie could not be removed from favorites.</string>
 

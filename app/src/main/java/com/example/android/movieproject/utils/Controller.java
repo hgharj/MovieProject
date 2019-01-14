@@ -15,11 +15,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Controller {
     private static final String BASE_URL = "https://api.themoviedb.org/";
-//    private static final String TRAILER_BASE_URL = "https://www.youtube.com/watch?v=";
-
     private List<MovieModel> mMovieList;
     private List<TrailerModel> mTrailerList;
     private List<UserReviewModel> mReviewList;
+    private static final String LOG_TAG = "Controller";
+    private static final String POPULAR = "popular";
+    private static final String VOTE_AVERAGE = "vote_average";
 
     public List<MovieModel> getMovieList(String sortBy, String apiKey) {
         Gson gson = new GsonBuilder()
@@ -34,9 +35,9 @@ public class Controller {
         MovieDbAPI movieDbAPI = retrofit.create(MovieDbAPI.class);
 
         Call<MovieResponse> call;
-        if (sortBy.contains("popular")) {
+        if (sortBy.contains(POPULAR)) {
             call = movieDbAPI.getMostPopularMovies(sortBy, apiKey);
-        } else if (sortBy.contains("vote_average")) {
+        } else if (sortBy.contains(VOTE_AVERAGE)) {
             call = movieDbAPI.getTopRatedMovies(sortBy, apiKey);
         } else {
             call = movieDbAPI.getMovie(sortBy, apiKey);
@@ -47,17 +48,12 @@ public class Controller {
             if (response.errorBody() == null) {
                 mMovieList = response.body().getMovieList();
             } else {
-                Log.v("Controller", response.errorBody().string());
+                Log.v(LOG_TAG, response.errorBody().string());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return mMovieList;
-    }
-
-    //This must access the favorite movies via a Content Provider
-    public List<MovieModel> getFavoriteMovies(String sortBy, String apiKey) {
-        return null;
     }
 
     public List<TrailerModel> getTrailers(Long id, String apiKey) {
@@ -108,7 +104,7 @@ public class Controller {
             if (response.errorBody() == null) {
                 mReviewList = response.body().getReviewList();
             } else {
-                Log.v("Controller", response.errorBody().string());
+                Log.v(LOG_TAG, response.errorBody().string());
             }
         } catch (IOException e) {
             e.printStackTrace();

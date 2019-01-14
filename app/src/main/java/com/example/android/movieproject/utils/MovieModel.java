@@ -3,11 +3,10 @@ package com.example.android.movieproject.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.android.movieproject.Movie;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieModel implements Parcelable{
+public class MovieModel implements Parcelable {
     @SerializedName("id")
     @Expose
     private Long id;
@@ -35,8 +34,8 @@ public class MovieModel implements Parcelable{
     private static final String POSTER_SIZE = "w780";
     private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
 
-    public MovieModel(Long id, String title, String posterPath,  String releaseDate, Float voteAverage, String overview) {
-        if (posterPath.contains(POSTER_SIZE) & posterPath.contains(POSTER_BASE_URL)){
+    public MovieModel(Long id, String title, String posterPath, String releaseDate, Float voteAverage, String overview) {
+        if (posterPath.contains(POSTER_SIZE) & posterPath.contains(POSTER_BASE_URL)) {
             this.posterPath = posterPath;
         } else {
             this.posterPath = POSTER_BASE_URL + POSTER_SIZE + posterPath;
@@ -47,6 +46,7 @@ public class MovieModel implements Parcelable{
         this.voteAverage = voteAverage;
         this.overview = overview;
     }
+
     public Long getId() {
         return id;
     }
@@ -72,8 +72,7 @@ public class MovieModel implements Parcelable{
     }
 
     public String getPosterUrl() {
-//        return POSTER_BASE_URL + POSTER_SIZE + posterPath;
-        if (this.posterPath.contains(POSTER_SIZE) & this.posterPath.contains(POSTER_BASE_URL)){
+        if (this.posterPath.contains(POSTER_SIZE) & this.posterPath.contains(POSTER_BASE_URL)) {
         } else {
             this.posterPath = POSTER_BASE_URL + POSTER_SIZE + posterPath;
         }
@@ -81,7 +80,7 @@ public class MovieModel implements Parcelable{
     }
 
     public void setPosterUrl(String posterPath) {
-        if (posterPath.contains(POSTER_SIZE) & posterPath.contains(POSTER_BASE_URL)){
+        if (posterPath.contains(POSTER_SIZE) & posterPath.contains(POSTER_BASE_URL)) {
             this.posterPath = posterPath;
         } else {
             this.posterPath = POSTER_BASE_URL + POSTER_SIZE + posterPath;
@@ -89,7 +88,7 @@ public class MovieModel implements Parcelable{
     }
 
     public String getReleaseDate() {
-        if (releaseDate.contains("-")){
+        if (releaseDate.contains("-")) {
             return MovieUtils.convertYYYY_MM_DD_MiddleEndian(releaseDate);
         } else {
             return releaseDate;
@@ -108,8 +107,7 @@ public class MovieModel implements Parcelable{
         this.overview = overview;
     }
 
-
-    public MovieModel(Parcel parcel){
+    public MovieModel(Parcel parcel) {
         this.id = parcel.readLong();
         this.title = parcel.readString();
         this.posterPath = parcel.readString();
@@ -119,7 +117,7 @@ public class MovieModel implements Parcelable{
     }
 
     //creator - used when un-parceling our parcel (creating the object)
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         @Override
         public MovieModel createFromParcel(Parcel parcel) {
             return new MovieModel(parcel);

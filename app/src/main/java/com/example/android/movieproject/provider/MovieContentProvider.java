@@ -10,13 +10,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.example.android.movieproject.provider.MovieContract.MovieEntry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MovieContentProvider extends ContentProvider {
-
     public static final int MOVIES = 100;
     public static final int MOVIE_WITH_ID = 101;
 
