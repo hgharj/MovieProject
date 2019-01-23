@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -62,6 +63,13 @@ public class MainActivity extends AppCompatActivity
     private static final String VOTE = "vote";
     private static final String POPULAR = "popular";
 
+    private static final String RECYCLER_LAYOUT = "recycler-layout";
+    private static final String RECYCLER_LIST_DATA = "recycler-list-data";
+    private static final String RECYCLER_CURSOR_DATA = "recycler-cursor-data";
+    private ArrayList<MovieModel> mMovies;
+    private Cursor mMovieCursor;
+    String mApiKey = BuildConfig.ApiKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,12 +82,9 @@ public class MainActivity extends AppCompatActivity
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
         context = this;
-        loadScreen();
-    }
-
-    private void loadScreen() {
-        final Context context = this;
         ArrayList movies = new ArrayList<MovieModel>();
+        GridLayoutManager layoutManager = new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false);
+        mMovieRecyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new MovieListAdapter(movies, new MovieListAdapter.OnItemClickListener() {
             //Pass movie data into the intent so that the detail screen can access it.
@@ -91,6 +96,52 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        mFavoriteMovieAdapter = new FavoriteMovieListAdapter(context, null, new FavoriteMovieListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(MovieModel movie) {
+                Intent detailIntent = new Intent(context, DetailActivity.class);
+                detailIntent.putExtra(MOVIE, movie);
+                startActivity(detailIntent);
+            }
+        });
+
+        if (getPreference().contains(FAVORITE)) {
+            mMovieRecyclerView.setAdapter(mFavoriteMovieAdapter);
+            if (savedInstanceState != null) {
+                Parcelable savedRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_LAYOUT);
+                mMovieRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerViewState);
+                mMovieCursor = savedInstanceState.getParcelable(RECYCLER_CURSOR_DATA);
+                if (mMovieCursor != null){
+                    mFavoriteMovieAdapter.swapCursor(mMovieCursor);
+                }
+                else {
+                    loadScreen();
+                }
+            } else {
+                // initialize the list to a new empty list
+                mFavoriteMovieAdapter.swapCursor(null);
+
+                // kick off the data fetching task
+                loadScreen();
+            }
+        } else {
+            mMovieRecyclerView.setAdapter(mAdapter);
+            if (savedInstanceState != null) {
+                Parcelable savedRecyclerViewState = savedInstanceState.getParcelable(RECYCLER_LAYOUT);
+                mMovieRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerViewState);
+                mMovies = savedInstanceState.getParcelableArrayList(RECYCLER_LIST_DATA);
+                mAdapter.addAll(mMovies);
+            } else {
+                // initialize the list to a new empty list
+                mAdapter.clear();
+
+                // kick off the data fetching task
+                loadScreen();
+            }
+        }
+    }
+
+    private void loadScreen() {
         // If there is a network connection, fetch data
         if (checkNetworkConnection() != null && checkNetworkConnection().isConnected()) {
             // Get a reference to the LoaderManager, in order to interact with loaders.
@@ -150,7 +201,10 @@ public class MainActivity extends AppCompatActivity
             // If there is a valid list of {@link Movie}s, then add them to the adapter's
             // data set. This will trigger the ListView to update.
             if (movies != null && !movies.isEmpty()) {
+                mMovies= new ArrayList<>();
+                mMovies.addAll(movies);
                 mAdapter.addAll(movies);
+                mMovieRecyclerView.setVisibility(View.VISIBLE);
                 mEmptyStateTextView.setVisibility(View.GONE);
             } else {
                 mEmptyStateTextView.setText(R.string.no_movies);
@@ -175,9 +229,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected List<MovieModel> doInBackground(Void... voids) {
-            String apiKey = BuildConfig.ApiKey;
             Controller controller = new Controller();
-            return controller.getMovieList(getPreference(), apiKey);
+            return controller.getMovieList(getPreference(), mApiKey);
         }
     }
 
@@ -193,7 +246,9 @@ public class MainActivity extends AppCompatActivity
         mTitleTextView.setText(R.string.settings_order_by_favorite_desc_label);
 
         if (cursor != null && cursor.getCount() > 0) {
+            mMovieCursor = cursor;
             mEmptyStateTextView.setVisibility(View.GONE);
+            mMovieRecyclerView.setVisibility(View.VISIBLE);
             cursor.moveToFirst();
 
         } else {
@@ -203,15 +258,6 @@ public class MainActivity extends AppCompatActivity
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         }
-
-        mFavoriteMovieAdapter = new FavoriteMovieListAdapter(context, cursor, new FavoriteMovieListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(MovieModel movie) {
-                Intent detailIntent = new Intent(context, DetailActivity.class);
-                detailIntent.putExtra(MOVIE, movie);
-                startActivity(detailIntent);
-            }
-        });
 
         mFavoriteMovieAdapter.swapCursor(cursor);
         mMovieRecyclerView.setAdapter(mFavoriteMovieAdapter);
@@ -261,6 +307,18 @@ public class MainActivity extends AppCompatActivity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelable(RECYCLER_LAYOUT, mMovieRecyclerView.getLayoutManager().onSaveInstanceState());
+        if (getPreference().contains(FAVORITE)) {
+            if (mMovieCursor!=null){
+            savedInstanceState.putParcelable(RECYCLER_CURSOR_DATA, mMovieCursor.getExtras());}
+        } else {
+            savedInstanceState.putParcelableArrayList(RECYCLER_LIST_DATA, mMovies);
+        }
+    }
+    
     @Override
     protected void onStart() {
         super.onStart();

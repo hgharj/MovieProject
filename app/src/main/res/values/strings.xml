@@ -29,8 +29,8 @@
     <string name="endpoint_popular" translatable="false">popular?</string>
 
     <string name="add_favorite_movie">Added to Favorites</string>
-    <string name="delete_favorite_movie">Deleted from Favorites</string>
-    <string name="delete_favorite_movie_successful">This movie has been successfully removed from favorites.</string>
+    <string name="add_favorite_movie_unsuccessful">Adding to Favorites Was Unsuccessful</string>
+    <string name="delete_favorite_movie">Deleted from Favorites</string>\
     <string name="delete_favorite_movie_failed">This movie could not be removed from favorites.</string>
 
     <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
